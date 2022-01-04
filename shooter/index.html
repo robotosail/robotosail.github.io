@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas game</title>
+    <link rel="stylesheet" href="css/index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js" integrity="sha512-eP6ippJojIKXKO8EPLtsUMS+/sAGHGo1UN/38swqZa1ypfcD4I0V/ac5G3VzaHfDaklFmQLEs51lhkkVaqg60Q==" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- the score -->
+    <div class="fixed"><span>Score: </span><span id="Score">0</span></div>
+    <div id="title" class="color-green text">R's Shooter Game</div>
+    <!-- the game over -->
+    <div class="fixed inset-0" id="modelEl">
+        <div class="bg-white">
+            <h1 class="text-4xl" id="bigScore">0</h1>
+            <p class="text-grayl">points</p>
+            <button class="bg-blue" id="startGame">Start Game</button>
+        </div>
+    </div>
+    
+    <div class="fixed right flex">FPS: <div id="fps" class="fixed"></div></div>
+    <!-- the canvas -->
+    <canvas id="canvas" fullscreen></canvas>
+    <script type="module" src="js/index.js"></script>
+    <script type="module" src="js/controls.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+body{
+    margin: 0%;
+    padding: 0;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+}
+
+canvas{
+    position: absolute;
+    /* background-color: rgb(175, 33, 33); */
+    /* top: 20%; */
+    /* left: 50%; */
+    /* width:500px;
+    height: 500px; */
+    transform: translate(0%, 20%);
+}
+

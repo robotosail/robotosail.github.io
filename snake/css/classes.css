@@ -1,0 +1,111 @@
+.button{
+    position: absolute;
+    width: 20px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    border-color: black;
+    width: 100px;
+    height: 50px;
+}
+
+/* red bg color */
+.bg-red{
+    background-color: red;
+}
+
+/* blue bg color */
+.bg-blue{
+    background-color: blue;
+}
+
+/* green bg color */
+.bg-green{
+    background-color: green;
+}
+
+/* black */
+.bg-black{
+    background-color: black;
+}
+
+/* orange */
+.bg-orange{
+    background-color: orange;
+}
+
+/* yellow */
+.bg-yellow{
+    background-color: yellow;
+}
+
+/* red bg color */
+.color-red{
+    color: red;
+}
+
+/* blue bg color */
+.color-blue{
+    color: blue;
+}
+
+/* green bg color */
+.color-green{
+    color: green;
+}
+
+/* black */
+.color-black{
+    color: black;
+}
+
+/* orange */
+.color-orange{
+    color: orange;
+}
+
+/* yellow */
+.color-yellow{
+    background-color: yellow;
+}
+
+.panels{
+    position: absolute;
+    background-color: white;
+    width: 400px;
+    height: 400px;
+    border-radius: 5px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    overflow-y: scroll;
+    display: none;
+}
+
+.colorwheel{
+    border-style: hidden;
+    background-color: transparent;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+}
+
+.range{
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    height: 5px;
+    background: aqua;
+}
+
+/* the thumb of the slider */
+.range::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    width:15px;
+    height: 15px;
+    border-radius: 50%;
+    background:aqua;
+}
+
+.text{
+    font: 30px comic;
+}

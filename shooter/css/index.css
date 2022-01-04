@@ -1,0 +1,91 @@
+body{
+    margin: 0;    
+    overflow: hidden;
+    cursor: url("../assets/target.cur"), crosshair;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    background-color: black;
+}
+
+/* class fixed */
+.fixed{
+    position: fixed;
+    color: aqua;
+    margin-left: 2px;
+    margin-top: 2px;
+}
+
+/* class inset-0 */
+.inset-0{
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* class bg-white */
+.bg-white{
+    background-color: white;
+    max-width: 50%;
+    width: 100%;
+    padding: 6%;
+    text-align: center;
+}
+
+/* class 4xl */
+.text-4xl{
+    font-size: 2.5rem;
+    font: bold;
+    line-height: 1;
+}
+
+.text-gray{
+    color: gray;
+    font-weight: 700;
+    margin-bottom: 4;
+}
+
+.bg-blue{
+    background-color: rgba(102, 102, 236, 0.842);
+    color: white;
+    width: 100%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-radius: 30px;
+}
+
+#fps{
+    padding-left: 5px;
+    right: 40px;
+}
+
+.right{
+    right: 60px;
+}
+
+.flex{
+    display: flex;
+}
+
+.text{
+    font: 30px comic;
+}
+
+/* green bg color */
+.color-green{
+    color: rgba(102, 102, 236, 0.842);
+}
+
+#title{
+    position: absolute;
+    align-content: center;
+    text-align: center;
+    left: 45%;
+    top: 10%;
+    font-weight: bold;
+    text-decoration: underline;
+}

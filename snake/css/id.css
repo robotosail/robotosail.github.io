@@ -1,0 +1,69 @@
+#playbtn{
+    position: absolute;
+    width: 100px;
+    height: 50px;
+    top: 50%;
+    left: 50%;
+    border-radius: 3px;
+} 
+
+#frame{
+    position: absolute;
+    color: yellow;
+    text-shadow: -1px -1px 0 black, 1px -1px 0 black,  3px -3px 0 black, 1px 1px 0 black;
+    top:5%;
+    left:90%;
+    font: bold 30px comic;
+    display: flex;
+}
+
+#pause-left{
+    position: relative;
+    width: 10px;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px black solid;
+    margin-right: 3px;
+}
+
+#pause-right{
+    position: relative;
+    width: 10px;
+    height: 30px;
+    border-radius: 5px;
+    border:black 1px solid;
+    left: 20%;
+}
+
+#pause{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    top: 10%;
+    left: 95%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    border-style: hidden;
+}
+
+#controls{
+    top: 40%;
+    left: 50%;
+}
+
+#customize-panel{
+    top: 20%;
+    left: 60%;
+}
+
+#title{
+    position: absolute;
+    align-content: center;
+    text-align: center;
+    left: 45%;
+    top: 20%;
+    font-weight: bold;
+    text-decoration: underline;
+}
