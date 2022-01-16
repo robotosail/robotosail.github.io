@@ -6,6 +6,10 @@
     z-index: 100;
 }
 
+body{
+    overflow-y: scroll;
+}
+
 nav{
     width: 100vw;
     text-align: center;
@@ -21,4 +25,27 @@ nav ul li{
     text-align: center;
     margin:0 5px;
     line-height: 80px;
+}
+
+#second-div{
+    position: absolute;
+    bottom:10%;
+
+}
+
+#text1{
+    top:100%;
+}
+
+#link2{
+    top: 150%;
+}
+
+#img2{
+    top: 170%;
+
+}
+
+#text{
+    top: 160%;
 }

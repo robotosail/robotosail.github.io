@@ -9,9 +9,8 @@
 
 #frame{
     position: absolute;
-    color: yellow;
     text-shadow: -1px -1px 0 black, 1px -1px 0 black,  3px -3px 0 black, 1px 1px 0 black;
-    top:5%;
+    top:0%;
     left:90%;
     font: bold 30px comic;
     display: flex;
@@ -54,7 +53,7 @@
 }
 
 #customize-panel{
-    top: 20%;
+    top: 30%;
     left: 60%;
 }
 

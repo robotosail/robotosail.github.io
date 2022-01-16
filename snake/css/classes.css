@@ -69,9 +69,8 @@
     background-color: yellow;
 }
 
-.panels{
+.panels-this{
     position: absolute;
-    background-color: white;
     width: 400px;
     height: 400px;
     border-radius: 5px;
@@ -79,7 +78,6 @@
     justify-content: center;
     align-items: center;
     overflow-y: scroll;
-    display: none;
 }
 
 .colorwheel{

@@ -6,6 +6,7 @@ import {movespeed} from "./controls.js";
 const canvas = document.getElementById("canvas");
 const c = canvas.getContext("2d");
 const startGameBtn = document.getElementById("startGame");
+const backBtn = document.getElementById("backbtn");
 const modelEl = document.getElementById("modelEl");
 const bigScore = document.getElementById("bigScore");
 const scoreEl = document.getElementById("Score");
@@ -216,6 +217,9 @@ startGameBtn.addEventListener("click", function () {
     modelEl.style.display = "none";
 })
 
+backBtn.addEventListener("click", function () {
+    window.location.href = "../"
+})
 //fps counter
 
 const fps = {

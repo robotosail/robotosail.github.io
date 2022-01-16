@@ -1,0 +1,8 @@
+Snake Game Todo:
+  ✔ add snake @done(21-12-29 20:23)
+  ✔ add food @done(21-12-29 20:24)
+  ✔ add movement to the game @done(21-12-29 20:30)
+  ✔ update the player when they eat the food @started(21-12-29 21:32) @done(22-01-01 05:05) @lasted(2d7h33m8s)
+  ✔ chaeck collision with fruit @done(21-12-29 21:31)
+  ✔ chaeck collision with canvas borders @done(22-01-01 16:10)
+  ✔ make the game look nicer @started(22-01-01 05:05) @done(22-01-01 16:10) @lasted(11h5m32s)

@@ -13,14 +13,16 @@ import { controlsbtn, controlsPanel } from "./customize.js";
     
     // ---- buttons
     const playbtn = document.getElementById("playbtn");
+    const backBtn = document.getElementById("backbtn");
+    const logo = document.getElementById("title");
     // ----
 
     const SNAKE_SPEED = 17;
     const snake_body = [];
 
     const fruit = {
-        x: 100,
-        y: 100,
+        x: Math.floor(Math.random() * canvas.width),
+        y: Math.floor(Math.random() * canvas.height),
         size: {
             x: 10,
             y: 10
@@ -40,8 +42,9 @@ import { controlsbtn, controlsPanel } from "./customize.js";
         outline: true,
         thickness: 2
     }
-    const color_random = `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 1)`
-
+    const color_random = {
+        value: `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 1)`
+    }
 ////
 
 //// let variables
@@ -51,7 +54,7 @@ import { controlsbtn, controlsPanel } from "./customize.js";
     // ----
 
 
-    let gameoverText, tailLength = 1;
+    let gameoverText, defaultTailLength = 1, tailLength = defaultTailLength;
 
 
     let VelY = 0, VelX = 0, score = 0, apple, snake;
@@ -63,19 +66,24 @@ import { controlsbtn, controlsPanel } from "./customize.js";
         playbtn.style.display = "none";
         controlsbtn.style.display = "none";
         controlsPanel.style.display = "none";
+        backBtn.style.display = "none";
+        logo.style.display = "none";
+        document.addEventListener("keydown", keyDown);
         gameLoop();
         const frameRate = new Frame("frame-count", ctx);
     }
 
+    
     function Character(){
+        
+        
         apple = new Fruit(ctx, { type: "apple", x: fruit.x, y: fruit.y, size: {x: fruit.size.x, y: fruit.size.y},
                             outline: fruit.outline, thickness: fruit.thickness});
-
-            
+                            
         for(let i = 0; i < snake_body.length; i++){
                 let parts = snake_body[i];
                 new Player(ctx, {x: parts.x, y: parts.y, 
-                    size: {x: player.size.x, y: player.size.y}, color: color_random, 
+                    size: {x: player.size.x, y: player.size.y}, color: color_random.value, 
                     outline: player.outline, thickness: player.thickness});
             }
             snake_body.push(new SnakePart(player.x, player.y));
@@ -89,7 +97,7 @@ import { controlsbtn, controlsPanel } from "./customize.js";
             snake = new Player(ctx, {x: player.x, y: player.y, 
                 size: {x: player.size.x, y: player.size.y}, color: player.color, tailLength: tailLength, 
                 outline: player.outline, thickness: player.thickness});
-
+                
     }
     
     //updating snake position
@@ -118,6 +126,25 @@ import { controlsbtn, controlsPanel } from "./customize.js";
             fruit.y = Math.floor(Math.random() * canvas.height);
             tailLength++;
             score++;
+            if(fruit.x <= 64){
+            fruit.x = Math.floor(Math.random() * canvas.width);
+            }
+            if(fruit.x >= canvas.width - 64){
+            fruit.x = Math.floor(Math.random() * canvas.width);
+            }
+            if(fruit.y <= 64){
+            fruit.y = Math.floor(Math.random() * canvas.height);
+            }
+            if(fruit.y >= canvas.height - 64){
+            fruit.y = Math.floor(Math.random() * canvas.height);
+            }
+            else if(fruit.x < player.x + player.size.x &&
+                fruit.x + fruit.size.x > player.x &&
+                fruit.y < player.y + player.size.x &&
+                fruit.size.y + fruit.y > player.y){
+                    fruit.x = Math.floor(Math.random() * canvas.width);
+                    fruit.y = Math.floor(Math.random() * canvas.height);  
+                }
         }
         /// ---
         
@@ -199,6 +226,8 @@ import { controlsbtn, controlsPanel } from "./customize.js";
         clearTimeout(gameLoopAnimation);
         playbtn.style.display = "block";
         controlsbtn.style.display = "block";
+        logo.style.display = "block";
+        backBtn.style.display = "block";
         gameLoopAnimation = null;
     }
 
@@ -212,7 +241,7 @@ import { controlsbtn, controlsPanel } from "./customize.js";
     }
 
     function isGameOver(){
-        let gamveOver = false;
+        let gameOver = false;
 
         if(VelX === 0 && VelY === 0){
             return false;
@@ -220,33 +249,37 @@ import { controlsbtn, controlsPanel } from "./customize.js";
 
         //walls
         if(player.x <= 0){
-            gamveOver = true;
+            gameOver = true;
         }
         if(player.x >= canvas.width - 20){
-            gamveOver = true;
+            gameOver = true;
         }
         if(player.y <= 0){
-            gamveOver = true;
+            gameOver = true;
         }
         if(player.y >= canvas.height - 20){
-            gamveOver = true;
+            gameOver = true;
         }
 
         for(let i = 0; i < snake_body.length; i++){
             let part = snake_body[i];
             while(part.x === player.x && part.y === player.y){
-                gamveOver = true;
+                gameOver = true;
                 break;
             }
         }
 
+        if(gameOver){
+            reset();
+        }
 
-        return gamveOver;
+        return gameOver;
     }
 
     function gameLoop() {
         gameLoopAnimation = setTimeout(gameLoop, 1070 / SNAKE_SPEED);
         changeSnakePos();
+        document.addEventListener("keydown", keyDown);
         let result = isGameOver();
         if(result){
             gameoverText = new Text(ctx, {text: "GAME OVER", x: canvas.width / 2 - 300, y: canvas.height / 2 - 100, font: "100px comic sans", color: "purple"});
@@ -261,18 +294,17 @@ import { controlsbtn, controlsPanel } from "./customize.js";
 
     function reset() {
         if(gameoverText){
-            score = 0;
             gameoverText = null;
             player.x = canvas.width / 2;
             player.y = canvas.height / 2;
-            tailLength = 1;
-        }
-        else{
-            player.x = canvas.width / 2;
-            player.y = canvas.height / 2;
-            tailLength = 1; 
+            tailLength = defaultTailLength;
+            VelX = 0;
+            VelY = 0;
             score = 0;
+            document.removeEventListener("keydown", keyDown);
+
         }
+        
     }
 // ----
 
@@ -285,7 +317,6 @@ import { controlsbtn, controlsPanel } from "./customize.js";
 
     document.getElementById("pause").addEventListener("click", pause);
 
-    addEventListener("keydown", keyDown);
 // ----
 
 
@@ -297,5 +328,6 @@ import { controlsbtn, controlsPanel } from "./customize.js";
 export{
     canvas,
     ctx,
-    playbtn
+    playbtn,
+    color_random
 }
