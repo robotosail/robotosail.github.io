@@ -2919,6 +2919,14 @@
 }
 /*  */
 /* selected */
+.select-none::selection{
+    user-select: none;
+}
+
+.select-all::selection{
+    user-select: all;
+}
+
 .active-bg-red:active{
     background-color: red;
     transition: .5s;
