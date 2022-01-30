@@ -1,6 +1,6 @@
 let originalBoard;
-const humanPlayer = "O";
-const AIPlayer = "X";
+const humanPlayer = "X";
+const AIPlayer = "O";
 let unbeatable = document.getElementById("box");
 const restartBtn = document.getElementById("restart");
 const winCombos = [
