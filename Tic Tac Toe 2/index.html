@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe Ai</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1 class="text pos-absolute left-44 color-white box-shadow-green bg-green border-radius-5px">Tic Tac Toe
+        </h1>
+    </header>
+
+    <main>
+    <table>
+        <tr>
+            <td class="cell" id="0"></td>
+            <td class="cell" id="1"></td>
+            <td class="cell" id="2"></td>
+        </tr>
+        <tr>
+            <td class="cell" id="3"></td>
+            <td class="cell" id="4"></td>
+            <td class="cell" id="5"></td>
+        </tr>
+        <tr>
+            <td class="cell" id="6"></td>
+            <td class="cell" id="7"></td>
+            <td class="cell" id="8"></td>
+        </tr>
+        
+    </table>
+    <div class="endGame ">
+        <div class="text pos-absolute width-80 height-20 left-12 bg-lightgreen"></div>
+        <div class="font-size-20px pos-absolute top-27 border-2px-black left-12 color-white bg-green border-radius-5px height-13 text">unbeatable</div>
+        <input placeholder="Type yes for unbeatable AI or no for beatable"
+         title="Type yes to make the AI unbeatable and No to make it beatable" id="box" 
+         class="width-15 left-58 pos-absolute top-30" value="yes">
+         <button id="restart" class="hover-bg-limegreen bg-green button align-center top-50 color-white left-30">replay</button>
+         <button id="backbtn" class="hover-bg-limegreen bg-green button align-center top-75 color-white left-30" onclick="window.location.href = '../' ">back</button>
+    </div>
+    <script src="js/index.js"></script>
+    </main>
+</body>
+</html>

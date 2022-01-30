@@ -1,0 +1,55 @@
+td{
+    border: 2px solid black;
+    height: 100px;
+    width: 100px;
+    text-align: center;
+    vertical-align: middle;
+    font-family: "Comic Sans MS", cursive;
+    font-size: 70px;
+    cursor: pointer;
+}
+
+table{
+    border-collapse:collapse;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -155px;
+}
+
+table tr:first-child td{
+border-top: 0;
+}
+
+table tr:last-child td{
+border-bottom: 0;
+}
+
+table tr td:first-child{
+border-left: 0;
+}
+
+table tr td:last-child{
+border-right: 0;
+}
+
+.endGame{
+    display: block;
+    width: 18%;
+    min-width: 2%;
+    max-width: 28%;
+    height: 40%;
+    min-height: 25%;
+    max-height: 50%;
+    top:30%;
+    left: 48%;
+    opacity: 80%;
+    background-color: lightgreen;
+    position: absolute;
+    margin-left: -7%;
+    padding-top: -.5rem;
+    padding-bottom: -.5rem;
+    text-align: center;
+    border-radius: 2%;
+    font-size: 2em;
+}

@@ -50,6 +50,8 @@ function chackGameOver(){
         gameOver = isGameOver();
         if(gameOver){
             gameOverSound.play();
+            playbtn.classList.remove("top-50");
+            playbtn.classList.add("top-70");
             playbtn.style.display = "block";
         }
     }
@@ -62,6 +64,8 @@ function chackGameWin(){
         gameWin = tileMap.didWin();
         if(gameWin){
             gameWinSound.play();
+            playbtn.classList.remove("top-50");
+            playbtn.classList.add("top-70");
             playbtn.style.display = "block";
         }
     }
@@ -98,14 +102,16 @@ playbtn.addEventListener("click", function(){
      gameLoopId = setInterval(gameLoop, 1000/75);
     }
     if(gameOver){
-        pacman.x = 352;
-        pacman.y = 224;
-        gameOver = false;
-        playbtn.style.display = "none";
+        // pacman.x = 352;
+        // pacman.y = 224;
+        // gameOver = false;
+        // playbtn.style.display = "none";
+        window.location.reload();
     }
     else if(gameWin){
-        gameWin = false;
-        playbtn.style.display = "none";
+        // gameWin = false;
+        // playbtn.style.display = "none";
+        window.location.reload();
     }
 })
 ///
