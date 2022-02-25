@@ -1,0 +1,21 @@
+*{
+    margin:0;
+    padding: 0%;
+}
+.container{
+    display: flex;/* to get the rows working */
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.row{
+    display: block;
+    width: 60px;
+    height: 60px;
+    border: 2px solid black;
+    background-color: rgb(241, 208, 165);
+}
+
+.black{
+    background-color: rgb(179, 131, 99);
+}
