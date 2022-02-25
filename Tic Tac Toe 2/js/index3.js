@@ -1,6 +1,6 @@
 let originalBoard;
-const humanPlayer = "X";
-const AIPlayer = "O";
+const humanPlayer = "O";
+const AIPlayer = "X";
 let unbeatable = document.getElementById("box");
 const restartBtn = document.getElementById("restart");
 const winCombos = [
@@ -35,20 +35,11 @@ function turnClick(square) {
 }
 
 function turn(squareId, player) {
-    // originalBoard[squareId] = player;
-    // // console.log(player)
-    // document.getElementById(squareId).innerText = player;
-    // let gameWon = checkWin(originalBoard, player);
-    // if (gameWon) gameOver(gameWon);
-    try {
     originalBoard[squareId] = player;
-        document.getElementById(squareId).innerText = player;
-        let gameWon = checkWin(originalBoard, player);
-        if (gameWon) gameOver(gameWon);
-    }
-    catch (err) {
-        return;
-    }
+    // console.log(player)
+    document.getElementById(squareId).innerText = player;
+    let gameWon = checkWin(originalBoard, player);
+    if (gameWon) gameOver(gameWon);
 }
 
 function checkWin(board, player) {
@@ -127,9 +118,9 @@ function minimax(newBoard, player) {
         }
     }
     else if(unbeatable.value === "no"  || unbeatable.value === "No" || unbeatable.value === "NO" || unbeatable.value === "nO") {
-        if (checkWin(newBoard, humanPlayer)) { // replace the player with human to make easy  or player to hard
+        if (checkWin(newBoard, player)) { // replace the player with human player
             return { score: -10 }
-        } else if (checkWin(newBoard, humanPlayer)) {//replace with AI
+        } else if (checkWin(newBoard, AIPlayer)) {
             return { score: 10 };
         } else if (availSpots.length === 0) {
             return { score: 0 };
@@ -180,3 +171,5 @@ function minimax(newBoard, player) {
 }
 
 restartBtn.addEventListener("click", startGame)
+
+// https://www.youtube.com/watch?v=TDu2qv5U5sc&list=PLQZzBCZ9uSHTQx3ZnHPOUO_K33NJ7Hj8j&index=35

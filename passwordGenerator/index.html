@@ -4,8 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Generator</title>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
-    <div></div>
+<body class="bg-black align-center">
+    <header>
+        <h1 class="color-red text font-size-30px">Password Generator</h1>
+    </header>
+    <main>
+        <div class="color-red border-radius-5px bg-white width-30 height-70 left-34 pos-absolute">
+            <div class="width-100 bg-yellow border-radius-5px height-100 pos-relative">
+                <div class="text top-10 pos-relative bold">How Many letters? <input type="text" name="" id="numbers" value="3" class="width-35px"></div>
+                <div class="text top-15 pos-relative bold">How Many number? <input type="text" name="" id="letters" value="3" class="width-35px"></div>
+                <div class="text top-20 pos-relative bold">How Many Special character? <input type="text" name="" value="3" id="characters" class="width-35px"></div>
+                <div class="top-25 pos-relative">
+                    <div class="pos-absolute left-30 bold font-size-20px">Order</div>
+                    <select class="left-50 pos-absolute" name="" id="order">
+                        <option value="letters/numbers/characters">letters/numbers/characters</option>
+                        <option value="letters/characters/numbers">letters/characters/numbers</option>
+                        <option value="numbers/letters/characters">numbers/letters/characters</option>
+                        <option value="numbers/characters/letters">numbers/characters/letters</option>
+                        <option value="characters/numbers/letters">characters/numbers/letters</option>
+                        <option value="characters/letters/numbers">characters/letters/numbers</option>
+                        <option value="random">random</option>
+                    </select>
+                </div>
+                <div class="text pos-absolute top-55 left-30 select-all bold">Password: <div id="Password" class="font-weight-10 pos-absolute left-100 top-5"></div></div>
+            </div>
+            <button class="button bg-red border-radius-5px top-80" id="generateBtn">Generate</button>
+        </div>
+        <script src="js/index.js"></script>
+    </main>
 </body>
 </html>

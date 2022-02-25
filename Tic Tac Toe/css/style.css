@@ -1,0 +1,99 @@
+.board{
+    grid-template-columns: repeat(3, auto);
+}
+.cells{
+    width: var(--cell-size);
+    height: var(--cell-size);
+    position: relative;
+    cursor: pointer;
+}
+.cells:first-child, .cells:nth-child(2), .cells:nth-child(3){
+border-top:none;
+}
+.cells:nth-child(3n + 1){
+border-left:none;
+}
+.cells:nth-child(3n + 3){
+border-right:none;
+}
+.cells:last-child, .cells:nth-child(7), .cells:nth-child(8){
+border-bottom:none;
+}
+
+.cells.x, .cells.o{
+    cursor: not-allowed;
+}
+.cells.x::before,
+ .cells.x::after,
+ .cells.o::before{
+    background-color: black;
+}
+
+/* the hover effect for the X's*/
+.cells.x::before,
+.cells.x::after,
+.board.x .cells:not(.o):not(.x):hover::before,
+.board.x .cells:not(.o):not(.x):hover::after{
+    content: "";
+    width: calc(var(--mark-size) * .15);
+    height: var(--mark-size);
+    position: absolute;
+}
+.cells.x::before,
+.board.x .cells:not(.o):not(.x):hover::before{
+    transform: rotate(45deg);
+}
+.cells.x::after,
+.board.x .cells:not(.o):not(.x):hover::after{
+    transform: rotate(-45deg);
+}
+/*  */
+
+/* hover effect for the O's */
+.cells.o::before,
+.cells.o::after,
+.board.o .cells:not(.x):not(.o):hover::before,
+.board.o .cells:not(.x):not(.o):hover::after{
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+}
+.cells.o::before,
+.board.o .cells:not(.x):not(.o):hover::before{  
+    width: var(--mark-size);
+    height: var(--mark-size);
+}
+
+.cells.o::after,
+.board.o .cells:not(.x):not(.o):hover::after{  
+    width: calc(var(--mark-size) * .7);
+    height: calc(var(--mark-size) * .7);
+    background-color: white;
+}
+/*  */
+
+.board.x .cells:hover:not(.x):not(.o):hover::before,
+.board.o .cells:hover:not(.x):not(.o):hover::before,
+.board.x .cells:hover:not(.x):not(.o):hover::after{
+    background-color: lightgrey;
+}
+
+.winning-message{
+    display:none;
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    right: 0%;
+    bottom: 0%;
+    background-color: rgba(93, 124, 144, 0.52);
+    flex-direction: column;
+}
+
+.winning-message.show{
+    display:flex;
+}
+
+:root{
+    --cell-size: 100px;
+    --mark-size: calc(var(--cell-size)*.9);
+}

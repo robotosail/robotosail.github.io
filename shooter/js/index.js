@@ -178,7 +178,7 @@ function animate(){
                     score.value(scoreVal);
                     
                     //for smooth shrinking
-                    gsap.to(enemy, {radius: enemy.radius - 10})
+                    // gsap.to(enemy, {radius: enemy.radius - 10})
                     enemy.radius -= 10;
                     setTimeout(() => {
                         projectiles.splice(index, 1);

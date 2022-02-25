@@ -1,6 +1,7 @@
 const form = document.getElementById("form");
 const box = document.getElementById("box");
 const response = document.getElementById("response");
+const clear = document.getElementById("clear")
 const tip1 = document.getElementById("tip1");
 const tip2 = document.getElementById("tip2");
 const tip3 = document.getElementById("tip3");
@@ -12,17 +13,56 @@ let value, input;
 
     writeMessage({ text: "What is your bill?", bot: true });
 
-tip1.addEventListener("click", () => {
-    tiprate = 10;
-})
+// tip1.addEventListener("click", () => {
+//     if (tip2.style.backgroundColor == "aqua") {
+//         tip2.style.backgroundColor = "rgb(52, 133, 160)";
+//         tip1.style.backgroundColor = "aqua";
+//     }
+//     else if (tip3.style.backgroundColor == "aqua") {
+//         tip3.style.backgroundColor = "rgb(52, 133, 160)";
+//         tip1.style.backgroundColor = "aqua";
+//     }
+//     else {
+//         tip1.style.backgroundColor = "aqua";
+//     }
+//     tiprate = 10;
+// })
 
-tip2.addEventListener("click", () => {
-    tiprate = 12;
+// tip2.addEventListener("click", () => {
+//     if (tip1.style.backgroundColor == "aqua") {
+//         tip1.style.backgroundColor = "rgb(52, 133, 160)";
+//         tip2.style.backgroundColor = "aqua";
+//     }
+//     else if (tip3.style.backgroundColor == "aqua"){
+//         tip3.style.backgroundColor = "rgb(52, 133, 160)";
+//         tip2.style.backgroundColor = "aqua";
+//     }
+//     else {
+//         tip2.style.backgroundColor = "aqua";
+//     }
+//     tiprate = 12;
+// })
+// tip3.addEventListener("click", () => {
+//     if (tip1.style.backgroundColor == "aqua") {
+//         tip1.style.backgroundColor = "rgb(52, 133, 160)";
+//         tip3.style.backgroundColor = "aqua";
+//     }
+//     else if (tip2.style.backgroundColor == "aqua") {
+//         tip2.style.backgroundColor = "rgb(52, 133, 160)";
+//         tip3.style.backgroundColor = "aqua";
+//     }
+//     else {
+//         tip3.style.backgroundColor = "aqua";
+//     }
+//     tiprate = 15;
+// })
+clear.addEventListener("click", () => {
+    const messages = document.getElementsByClassName("messages");
+    for (let i = 0; i < 1; i++) {
+        box.innerHTML = "";
+        writeMessage({ text: "What is your bill?", bot: true });
+    }
 })
-tip3.addEventListener("click", () => {
-    tiprate = 15;
-})
-
 
 function writeMessage({ text, bot, answer }) {
     this.text = text;
@@ -70,6 +110,7 @@ function entermessage(e) {
         writeMessage({ text: text });
         if (tiprate) {
             calculate(Number(answer), tiprate);
+            return;
         }
         else {
             writeMessage({ text: "please set a tipping rate", answer: true, bot: true});
@@ -77,6 +118,7 @@ function entermessage(e) {
                 tiprate = value;
                 console.log(tiprate);
                 calculate(Number(answer), tiprate);
+                return;
             }
         }
 
@@ -98,7 +140,7 @@ form.addEventListener("submit", entermessage);
 
 function calculate(answer, tip) {
     let math = Number((tip * answer) / 100);
-    const bill = Number(answer + math);
+    let bill = Number(answer + math);
     if (!Number.isInteger(math)) {
         // writeMessage({ text: `You should give a tip of ${math} cents`, bot: true });
 
@@ -107,7 +149,8 @@ function calculate(answer, tip) {
             if (value && Number(value)) {
                 clearInterval(getInterval);
                 writeMessage({ text: `Each of you pay \$${(bill / value).toFixed(2)}`, bot: true });
-                value = undefined;
+                value = "";
+                bill = ""
             }
         }, 1000);
     }
@@ -118,7 +161,8 @@ function calculate(answer, tip) {
             if (value && Number(value)) {
                 clearInterval(getInterval);
                 writeMessage({ text: `Each of you pay \$${(bill / value).toFixed(2)}`, bot: true });
-                value = undefined;
+                value = "";
+                bill = ""
             }
         }, 1000);
         return;
@@ -128,17 +172,22 @@ function calculate(answer, tip) {
 
 
 for (let i = 0; i < tip.length; i++){
-    for (let j = 0; j < tip[i].length; j++){
+    
+    for (let j = 0; j < tip[i].length; j++) {
             tip[i].addEventListener("click", function () {
-
-            if (tip[j].classList.contains("bg-lightblue")) {
-                tip[i].classList.remove("bg-lightblue");
-                tip[i].classList.add("bg-aqua");
-            }
-            else {
-                tip[i].classList.add("bg-lightblue");
-                tip[i].classList.remove("bg-aqua");
-            }
-        })
+             console.log(i)
+            // if (tip[i].classList.contains("bg-lightblue")) {
+            //     tip[i].classList.remove("bg-lightblue");
+            //     tip[i].classList.add("bg-aqua");
+            // }
+            // else {
+            //     tip[i].classList.add("bg-lightblue");
+            //     tip[i].classList.remove("bg-aqua");
+            // }
+            })
         }
+        //     if(tip[j].classList.contains("bg-lightblue")){
+        //         tip[j].classList.add("bg-lightblue");
+        //         tip[j].classList.remove("bg-aqua");
+        //     }
 }
