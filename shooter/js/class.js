@@ -118,14 +118,14 @@ class Weapon{
         this.binding()
     }
     draw(){
-      
+        c.save()
         c.beginPath();
-        // c.rotate(150);
         c.fillStyle =  this.color;
         //Drawing a rectangle as the weapon
-        c.fillRect(this.x, this.y, this.width, this.height);
+        c.fillRect(30, -10, this.width, this.height);
         c.fill();
         c.closePath();
+        c.restore()
     }
     binding(){
 		const self = this;
@@ -138,10 +138,10 @@ class Weapon{
         this.toAngle = Math.atan2(ny - this.y, nx - this.x)
     }
     render(){
+		// c.clearRect(0, 0, canvas.width, canvas.height);
         c.save();
 		//translating to the position of the mouse
-		c.translate(-offset.x, -offset.y);
-		// c.clearRect(-offset.x, -offset.y, canvas.width, canvas.height);
+		// c.translate(-offset.x, -offset.y);
 		  c.translate(player.x, player.y);
 		//adding the map
 		if(this.toAngle !== this.angle){

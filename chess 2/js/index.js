@@ -75,10 +75,10 @@ for (let i = 0; i < rows.length; i++) {
             // check if the player can move 
             correctMove(selection.player, selection.piece, selection.row, selection.column, targetRow, targetColumn, targetPiece, targetPlayer);
         }
-        else {
+        else{
             // alert(playerTurn + "'s Turn")
                 msg.forEach(msg => msg.style.display = "block");
-            alertMsg.innerHTML = playerTurn + "'s Turn";
+                alertMsg.innerHTML = playerTurn + "'s Turn";
         }
         showcorrectMove(selection.player, selection.piece, selection.row, selection.column, targetRow, targetColumn, targetPiece, targetPlayer);
     })
@@ -171,9 +171,8 @@ function correctMove(player, piece, row, column, targRow, targColumn, targPiece,
                 castle.canCastleWhiteRight = false;
                 canMove = true;
             }
-            if (castle.canCastleWhiteLeft === true) {
+            if (castle.canCastleWhiteLeft === true && (column == 4 && row == 1) && targColumn == 2 && document.querySelector("[row='1'][column='1']").getAttribute("piece") == "rook") {
                 // king side castling 
-                if ((column == 4 && row == 1) && targColumn == 2 && document.querySelector("[row='1'][column='1']").getAttribute("piece") == "rook") {
                     canMove = true;
                     document.querySelector(`[row= "1"][column="3"]`).style.cssText = `background-image:url('assets/${player}/rook.png'); background-size:64px; background-color:${bgcolor}`;
                     document.querySelector(`[row= "1"][column="3"]`).setAttribute("player", player);
@@ -185,24 +184,21 @@ function correctMove(player, piece, row, column, targRow, targColumn, targPiece,
                     document.querySelector(`[row= "1"][column="1"]`).setAttribute("piece", "");
                     console.log("%cBlack Castled King side", "color:green; background-color:black; -webkit-text-stroke:2px lime; font-size:40px;")
                     castle.canCastleWhiteLeft = false;
-                }
-                // queen side castling
-                else if (castle.canCastleWhiteRight === true) {
-                    if ((column == 4 && row == 1) && targColumn == 6 && document.querySelector("[row='1'][column='8']").getAttribute("piece") == "rook") {
-                        canMove = true;
-                        document.querySelector(`[row= "1"][column="5"]`).style.cssText = `background-image:url('assets/${player}/rook.png'); background-size:64px; background-color:${bgcolor}`;
-                        document.querySelector(`[row= "1"][column="5"]`).setAttribute("player", player);
-                        document.querySelector(`[row= "1"][column="5"]`).setAttribute("piece", "rook");
-                        document.querySelector(`[row= "1"][column="5"]`).setAttribute("empty", "false");
-                        document.querySelector(`[row= "1"][column="8"]`).style.cssText = `background-image:none; background-color:rgb(241, 208, 165);`;
-                        document.querySelector(`[row= "1"][column="8"]`).setAttribute("empty", "true");
-                        document.querySelector(`[row= "1"][column="8"]`).setAttribute("player", "");
-                        document.querySelector(`[row= "1"][column="8"]`).setAttribute("piece", "");
-                        console.log("%cBlack Castled queen side", "color:green; background-color:black; -webkit-text-stroke:2px lime; font-size:40px;")
+            }
+            // queen side castling
+            else if (castle.canCastleWhiteRight === true && (column == 4 && row == 1) && targColumn == 6 && document.querySelector("[row='1'][column='8']").getAttribute("piece") == "rook") {
+                    canMove = true;
+                    document.querySelector(`[row= "1"][column="5"]`).style.cssText = `background-image:url('assets/${player}/rook.png'); background-size:64px; background-color:${bgcolor}`;
+                    document.querySelector(`[row= "1"][column="5"]`).setAttribute("player", player);
+                    document.querySelector(`[row= "1"][column="5"]`).setAttribute("piece", "rook");
+                    document.querySelector(`[row= "1"][column="5"]`).setAttribute("empty", "false");
+                    document.querySelector(`[row= "1"][column="8"]`).style.cssText = `background-image:none; background-color:rgb(241, 208, 165);`;
+                    document.querySelector(`[row= "1"][column="8"]`).setAttribute("empty", "true");
+                    document.querySelector(`[row= "1"][column="8"]`).setAttribute("player", "");
+                    document.querySelector(`[row= "1"][column="8"]`).setAttribute("piece", "");
+                    console.log("%cBlack Castled queen side", "color:green; background-color:black; -webkit-text-stroke:2px lime; font-size:40px;")
 
-                        castle.canCastleWhiteRight = false;
-                    }
-                }
+                    castle.canCastleWhiteRight = false;
             }
         }
         // for white king
@@ -279,6 +275,7 @@ function correctMove(player, piece, row, column, targRow, targColumn, targPiece,
     // end of function
 }
 
+//displays the possible moves of the piece
 function showcorrectMove(player, piece, row, column, targRow, targColumn, targPiece, targPlayer) {
     let spots;
     let rows;
@@ -523,7 +520,7 @@ function showcorrectMove(player, piece, row, column, targRow, targColumn, targPi
             }
         }
     }
-    if (piece == "bishop") {
+    if (piece == "bishop" || piece == "queen") {
         if (player == "white") {
             // // diagonal up right
             if (row - 1 && column + 1) {
@@ -839,7 +836,7 @@ function gameEnd() {
         const button = document.createElement("button")
         button.classList.add("bg-yellow");
         button.classList.add("width-40");
-        button.classList.add("top-40");
+        button.classList.add("top-50");
         button.classList.add("left-30");
         button.classList.add("height-40px");
         button.classList.add("pos-absolute");
@@ -1177,14 +1174,14 @@ function movePiece(player, piece, row, column, targRow, targColumn) {
     //switching the turn
     if (playerTurn == "white") {
         playerTurn = "black";
-        console.log("swaped", playerTurn)
+        console.log("swaped", playerTurn);
         pause("clock2");
-        play("clock", 1000)
+        play("clock", 1000);
 
     }
     else if (playerTurn == "black") {
         playerTurn = "white";
-        console.log("swapped", playerTurn)
+        console.log("swapped", playerTurn);
         play("clock2", 1000);
         pause("clock");
     }
@@ -1206,6 +1203,10 @@ ok.addEventListener("click", () => {
     })
 });
 
+ok.addEventListener("click", function () {
+    clock2 = setInterval(time2, 1000);
+}, { once: true });
+
 
 let startingMinutes = 10;
 //black clock
@@ -1221,10 +1222,13 @@ function time1() {
     /* decreaseaing the timer*/
     blackClock--;
     /* if the timer is less than 0 it should stop*/
-    if (blackClock <= startingMinutes) {
+    if (blackClock <= 0) {
         //setting the time to 0
         blackClock = 0;
         pause(clock);
+        gameEnd();
+        alertMsg.innerHTML = `White Wins because timer run out`;
+        playerTurn = "none";
     }
 }
 
@@ -1241,15 +1245,17 @@ function time2() {
     /* decreaseaing the timer*/
     whiteClock--;
     /* if the timer is less than 0 it should stop*/
-    if (whiteClock <= startingMinutes) {
+    if (whiteClock <= 0) {
         //setting the time to 0
         whiteClock = 0;
         pause(clock2);
+        gameEnd();
+        alertMsg.innerHTML = `Black Wins because timer run out`;
+        playerTurn = "none";
     }
 }
 
 // clock = setInterval(time1, 1000);
-clock2 = setInterval(time2, 1000);
 
 // to pause the clock after each turn
 function pause(id) {

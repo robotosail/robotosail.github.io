@@ -6,6 +6,7 @@ import {movespeed} from "./controls.js";
 const canvas = document.getElementById("canvas");
 const c = canvas.getContext("2d");
 const startGameBtn = document.getElementById("startGame");
+const backBtn = document.getElementById("backbtn");
 const modelEl = document.getElementById("modelEl");
 const bigScore = document.getElementById("bigScore");
 const scoreEl = document.getElementById("Score");
@@ -53,8 +54,8 @@ addEventListener("click", function(e){
     
     const angle = Math.atan2(e.clientY - canvas.height / 2, e.clientX - canvas.width / 2);
     const velocity = {
-    x: Math.cos(angle) * 6,
-    y: Math.sin(angle) * 6
+    x: Math.cos(angle) * 6, //the speed of the bullet
+    y: Math.sin(angle) * 6 //the speed of the bullet
     }
 
     //setting the position of the projectile to be from the player
@@ -100,7 +101,7 @@ function spawnEnemies(){
 
 let animationId;
 let scoreVal = 0;
-// let weapon = new Weapon({x: 500, y: 100, width: 20, height:30, color: "purple"});
+let weapon = new Weapon({x: player.x, y: player.y, width: 20, height:20, color: "purple"});
 
 // animating the game
 function animate(){
@@ -116,6 +117,7 @@ function animate(){
     
     //drawing the players
     player.draw();
+    
 
     //the projectiles
     projectiles.forEach( function(projectile, index){
@@ -177,7 +179,7 @@ function animate(){
                     score.value(scoreVal);
                     
                     //for smooth shrinking
-                    gsap.to(enemy, {radius: enemy.radius - 10})
+                    // gsap.to(enemy, {radius: enemy.radius - 10})
                     enemy.radius -= 10;
                     setTimeout(() => {
                         projectiles.splice(index, 1);
@@ -198,14 +200,14 @@ function animate(){
         });
     });
 
+    // c.translate(offset.x /2, offset.y /2);
     // c.translate(player.x, player.y);
-    // weapon.render();
     //restoring the elements back to position
+    weapon.render();
     c.restore();
 
 
 }
-
 
 //restarts game
 startGameBtn.addEventListener("click", function () {
@@ -216,6 +218,9 @@ startGameBtn.addEventListener("click", function () {
     modelEl.style.display = "none";
 })
 
+backBtn.addEventListener("click", function () {
+    window.location.href = "../"
+})
 //fps counter
 
 const fps = {
@@ -234,17 +239,17 @@ const fps = {
     	}
     };
 
-            const f = document.querySelector("#fps");
-            function fpsLoop(){	
-                setTimeout( fpsLoop, 1000 / 60 );	f.innerHTML = fps.getFPS();
-            }
+const f = document.querySelector("#fps");
+function fpsLoop(){	
+    setTimeout( fpsLoop, 1000 / 60 );	f.innerHTML = fps.getFPS();
+}
 
-            fpsLoop()
+fpsLoop()
             
-addEventListener("resize", function(e){
-               canvas.width = innerWidth;
-               canvas.height = innerHeight;
- });
+addEventListener("resize", function (e) {
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+});
 
  // exports
 export{
