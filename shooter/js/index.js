@@ -6,7 +6,6 @@ import {movespeed} from "./controls.js";
 const canvas = document.getElementById("canvas");
 const c = canvas.getContext("2d");
 const startGameBtn = document.getElementById("startGame");
-const backBtn = document.getElementById("backbtn");
 const modelEl = document.getElementById("modelEl");
 const bigScore = document.getElementById("bigScore");
 const scoreEl = document.getElementById("Score");
@@ -178,7 +177,7 @@ function animate(){
                     score.value(scoreVal);
                     
                     //for smooth shrinking
-                    // gsap.to(enemy, {radius: enemy.radius - 10})
+                    gsap.to(enemy, {radius: enemy.radius - 10})
                     enemy.radius -= 10;
                     setTimeout(() => {
                         projectiles.splice(index, 1);
@@ -217,9 +216,6 @@ startGameBtn.addEventListener("click", function () {
     modelEl.style.display = "none";
 })
 
-backBtn.addEventListener("click", function () {
-    window.location.href = "../"
-})
 //fps counter
 
 const fps = {
