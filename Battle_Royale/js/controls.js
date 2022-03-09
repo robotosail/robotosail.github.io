@@ -68,10 +68,10 @@ function stopMoving(e) {
 function click(e) {
     switch (e.button) {
         case 0:
-            Fist1.y = Fist1.y - height
+            Fist1.y = Fist1.y + height
             clicking = true;
             setTimeout(function () {
-                Fist1.y = Fist1.y + height;
+                Fist1.y = Fist1.y - height;
                 clicking = false;
             }, 100);
             break;
@@ -87,23 +87,23 @@ function animate() {
     // offset is for the moving camera
     if (up == true) {
         Player.y -= speed.value;
-        Fist1.y -= speed.value;
-        Fist2.y -= speed.value;
+        // Fist1.y -= speed.value;
+        // Fist2.y -= speed.value;
         offset.y += speed.value;
     } if (down == true) {
         Player.y += speed.value;
-        Fist1.y += speed.value;
-        Fist2.y += speed.value;
+        // Fist1.y += speed.value;
+        // Fist2.y += speed.value;
         offset.y -= speed.value;
     } if (left == true) {
         Player.x -= speed.value;
-        Fist1.x -= speed.value;
-        Fist2.x -= speed.value;
+        // Fist1.x -= speed.value;
+        // Fist2.x -= speed.value;
         offset.x += speed.value;
     } if (right == true) {
         Player.x += speed.value;
-        Fist1.x += speed.value;
-        Fist2.x += speed.value;
+        // Fist1.x += speed.value;
+        // Fist2.x += speed.value;
         offset.x -= speed.value;
     }
 }

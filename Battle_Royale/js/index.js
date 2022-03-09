@@ -1,5 +1,5 @@
 ///////// IMPORTS
-import { Resize, Circle, Map, Square, Collision } from "./classes.js";
+import { Resize, Circle, Map, Square, Collision, Rotate } from "./classes.js";
 import { clicking, speed, up, down, left, right } from "./controls.js";
 /////////
 
@@ -26,10 +26,10 @@ let player = {
     lineWidth: 5
 }
 let fist = {
-    x1: player.x - 27,
-    x2: player.x + 28,
-    y1: player.y - 25,
-    y2: player.y - 25,
+    x1: 26,
+    x2:  -28,
+    y1: 27,
+    y2: 25,
     color: "blue",
     radius: 10
 }
@@ -42,9 +42,11 @@ let boxes = {
 let Player = new Circle(c, player);
 let Fist1 = new Circle(c, { x: fist.x1, y: fist.y1, radius: fist.radius, color: fist.color, outline: true });
 let Fist2 = new Circle(c, { x: fist.x2, y: fist.y2, radius: fist.radius, color: fist.color, outline: true });
-let map, box, box1, crates = [];
+let map, box, box1, crates = [], destroyCollision1, hitCollision;;
+// allows player to rotate
+let rotateFist1 = new Rotate(c, { x: Player.x, y: Player.y });
+let rotateFist2 = new Rotate(c, { x: Player.x, y: Player.y });
 /////////
-
 
 
 ///////// FUNCTIONS DEFINED
@@ -52,30 +54,34 @@ function DrawPlayer() {
    
     // drawing the player
     Player.draw();
-    Fist1.draw();
-    Fist2.draw()
 }
 
 function DrawMap() {
-    box1 = new Square(c, { x: 400, y: 100, width: boxes.radius, height: boxes.radius, color: boxes.color, outline: true });
-    // for destroying the box
-    // if () {
-        let destroyCollision1 = new Collision(box1, Fist1).checkCircleandRect(c);
-        if (destroyCollision1 == true && clicking) {
-            boxes.radius -= boxes.damage; //reducing the box size when hit
+    box = new Square(c, { x: 400, y: 100, width: boxes.radius, height: boxes.radius, color: boxes.color, outline: true });
+    crates.push(box);
 
+    // for destroying the box
+        destroyCollision1 = new Collision(box, Fist1).checkCircleandRect(c, {arms: true, player: Player});
+    if (destroyCollision1 == true && clicking) {
+            boxes.radius -= boxes.damage; //reducing the box size when hit
             if (boxes.radius <= 30) {
                 boxes.radius = 0;
             }
+    }
+    // collision between the player and the boxes
+    hitCollision = new Collision(box, Player).checkCircleandRect(c, { arms: false });
+    if (hitCollision === true && up == true ||
+        hitCollision === true && down == true ||
+        hitCollision === true && left == true ||
+        hitCollision === true && right == true  ) {
+        // speed.value = 0;
+        if (speed.value == speed.value) {
+        speed.value = -speed.value
+        // console.log(parseInt(-speed.value));
         }
-    // }
-    // to stop moving
-    let destroyCollision = new Collision(box1, Player).checkCircleandRect(c);
-    if (destroyCollision === true && up == true ||
-        destroyCollision === true && down == true ||
-        destroyCollision === true && left == true ||
-        destroyCollision === true && right == true  ) {
-        speed.value = 0;
+        // setTimeout(function () {
+        //     speed.value = Math.abs(speed.value);
+        // },100)
     }
     else {
         speed.value = 2;
@@ -97,6 +103,8 @@ function animate() {
     map = new Map(c, { size: 90, amount: 10 })
     DrawMap();
     DrawPlayer();
+    rotateFist1.render();
+    rotateFist2.render();
     c.restore();
 }
 

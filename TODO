@@ -16,7 +16,7 @@ Battle Royale Todo:
   [x] make game change perpective.
   [x] add collision for when boxes are punched.
   [x] stop player from going through objects.
-  [] make player rotate.
+  [x] make player rotate.
   [] add buildings
   [] add guns
   [] add bullet.

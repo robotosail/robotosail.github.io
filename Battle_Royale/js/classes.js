@@ -1,3 +1,5 @@
+import { Player, Fist1, Fist2, player, fist } from "./index.js";
+
 /////// CLASSES
 class Resize{
     constructor( canvas, { width = 200, height = 200, update = false, color}) {
@@ -100,23 +102,24 @@ class Square{
             this.animate();
         }
         else {
-            this.draw(this.c, this.x, this.y, this.width, this.height);
+            this.draw();
         }
     }
-    draw(c, x, y, width, height) {
+    draw() {
         if (this.color) {
-            c.fillStyle = this.color;
+            this.c.fillStyle = this.color;
         }
         if (this.outline) {
-            c.strokeStyle = this.outlineColor
-            c.strokeRect(x, y, width, height);
+            this.c.strokeStyle = this.outlineColor
+            this.c.strokeRect(this.x, this.y, this.width, this.height);
         }
-        c.fillRect(x, y, width, height);
+        this.c.fillRect(this.x, this.y, this.width, this.height);
 
     }
     animate() {
         requestAnimationFrame(this.animate.bind(this));
-        this.draw(c, x, y, width, height);
+        // this.draw(c, x, y, width, height);
+        this.draw();
     }
 }
 
@@ -156,9 +159,18 @@ class Collision{
         }
         return false;
     }
-    checkCircleandRect(c) { //obj1 being the rectangle and obj2 being the circle
-        let distx = Math.round((this.obj2.x  - this.obj1.x) / 2);//add / 2 to the end detect center of objects
-        let disty = Math.round((this.obj2.y - this.obj1.y) /2);//add / 2 to the end to detect center of objects
+    checkCircleandRect(c, {arms = true, player}) { //obj1 being the rectangle and obj2 being the circle
+        // let distx = Math.round(Math.abs(this.obj2.x - this.obj1.x) / 2);//add / 2 to the end detect center of objects
+        // let disty = Math.round(Math.abs(this.obj2.y - this.obj1.y) / 2);//add / 2 to the end to detect center of objects
+        let distx, disty;
+        if (arms == true) {
+            distx = Math.round(Math.abs((player.x - this.obj2.x)  - this.obj1.x)/2);//add / 2 to the end detect center of objects
+            disty = Math.round(Math.abs((player.y - this.obj2.y) - this.obj1.y)/2);//add / 2 to the end to detect center of objects
+        }
+        else if(arms == false) {
+            distx = Math.round((this.obj2.x - this.obj1.x) / 2);//add / 2 to the end detect center of objects
+            disty = Math.round((this.obj2.y - this.obj1.y) / 2);//add / 2 to the end to detect center of objects
+        }
         
         ///// for Debugging and understanding the math
         // console.log(this.obj1.width / 2 + this.obj2.radius);
@@ -166,20 +178,21 @@ class Collision{
         // console.log(this.obj2.y / 2 - this.obj1.y/ 2);
         // console.log(disty);
         // console.log((this.obj1.height / 2 - this.obj2.radius /2));
+        // console.log(Math.abs(this.obj2.x - this.obj1.x) / 2);
         /////
 
         // checks if the x is greater than the width and radius
         if (distx >= (this.obj1.width - this.obj2.radius)) { return false }; 
         // check if the x is less than 0 then set it to false
-        if (distx <= -16) { return false };
+        if (distx <= -20) { return false }; // the max distance before the collision happens
         
         if (disty >= (this.obj1.height - this.obj2.radius)) { return false };
         // check if the y is less than 0 then set it to false
-        if (disty <= -16) { return false };
+        if (disty <= -20) { return false }; // the max distance before the collision happens
         
         // checks if the center of both objects are closer to each other
-        if (distx < (this.obj1.width / 2)) { return true; }//add / 2 so the detection happens exactly
-        if (disty < (this.obj1.height / 2)) { return true; }//add / 2 so the detection happens exactly
+        if (distx < (this.obj1.width)) { return true; }//add / 2 so the detection happens exactly
+        if (disty < (this.obj1.height)) { return true; }//add / 2 so the detection happens exactly
 
         // let dx = distx - this.obj1.width /2;//add / 2 to detect center of objects
         // let dy = disty - this.obj1.height /2;//add / 2 to detect center of objects
@@ -188,7 +201,8 @@ class Collision{
 }
 
 class Rotate {
-    constructor({ x = 100, y = 100, velocity = { x: canvas.width / 2, y: canvas.height / 2 } }) {
+    constructor(c,{ x = 100, y = 100, velocity = { x: canvas.width / 2, y: canvas.height / 2 } }) {
+        this.c = c
         this.x = x;
         this.y = y;
         this.velocity = velocity;
@@ -208,16 +222,18 @@ class Rotate {
     }
     render() {
         // c.clearRect(0, 0, canvas.width, canvas.height);
-        c.save();
+        this.c.save();
         //translating to the position of the mouse
         // c.translate(-offset.x, -offset.y);
-        c.translate(player.x, player.y);
+        this.c.translate(Player.x, Player.y);
         //adding the map
         if (this.toAngle !== this.angle) {
-            c.rotate(this.toAngle - this.angle);
+            this.c.rotate(this.toAngle - this.angle);
         }
-        
-        c.restore();
+        this.c.rotate(187)
+        Fist1.draw();
+        Fist2.draw()
+        this.c.restore();
     }
 }
 ///////
