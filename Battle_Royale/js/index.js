@@ -110,8 +110,9 @@ function animate() {
     c.fillStyle = canvasColor;
     c.save()
     c.translate(offset.x, offset.y);
+    // c.fillRect(-offset.x, -offset.y, canvas.width, canvas.height);
     c.fillRect(-offset.x, -offset.y, canvas.width, canvas.height);
-    map = new Map(c, { size: 90, amount: 10 })
+    map = new Map(c, { size: 100, amount: 50 })
     DrawCrates();
     DrawBuildings();
     DrawPlayer();
@@ -119,6 +120,8 @@ function animate() {
     rotateFist1.render();
     rotateFist2.render();
     c.restore();
+    // c.clearRect()
+
 }
 
 /////////

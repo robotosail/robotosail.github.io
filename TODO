@@ -6,6 +6,9 @@ Snake Game Todo:
   ✔ chaeck collision with fruit @done(21-12-29 21:31)
   ✔ chaeck collision with canvas borders @done(22-01-01 16:10)
   ✔ make the game look nicer @started(22-01-01 05:05) @done(22-01-01 16:10) @lasted(11h5m32s)
+  [] Make enemies shoot at player.
+  [] add health to the player
+  [] make health bar update
 
 Battle Royale Todo:
   [x] create canvas @done
