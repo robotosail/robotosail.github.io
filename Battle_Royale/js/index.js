@@ -42,7 +42,7 @@ let boxes = {
 let Player = new Circle(c, player);
 let Fist1 = new Circle(c, { x: fist.x1, y: fist.y1, radius: fist.radius, color: fist.color, outline: true });
 let Fist2 = new Circle(c, { x: fist.x2, y: fist.y2, radius: fist.radius, color: fist.color, outline: true });
-let map, box, box1, crates = [], destroyCollision1, hitCollision;;
+let map, box, box1, crates = [], destroyCollision1, hitCollision, building;
 // allows player to rotate
 let rotateFist1 = new Rotate(c, { x: Player.x, y: Player.y });
 let rotateFist2 = new Rotate(c, { x: Player.x, y: Player.y });
@@ -56,28 +56,39 @@ function DrawPlayer() {
     Player.draw();
 }
 
-function DrawMap() {
+function DrawBuildings() {
+    building = new Square(c, {x: 100, y:600, width: 500, height: 500, color: "blue"})
+}
+
+function DrawCrates() {
     box = new Square(c, { x: 400, y: 100, width: boxes.radius, height: boxes.radius, color: boxes.color, outline: true });
     crates.push(box);
+    
+}
 
+// for detecting collision
+function collisionDetection() {
     // for destroying the box
-        destroyCollision1 = new Collision(box, Fist1).checkCircleandRect(c, {arms: true, player: Player});
+    destroyCollision1 = new Collision(box, Fist1).checkCircleandRect(c, { arms: true, player: Player });
     if (destroyCollision1 == true && clicking) {
-            boxes.radius -= boxes.damage; //reducing the box size when hit
-            if (boxes.radius <= 30) {
-                boxes.radius = 0;
-            }
+        c.save()
+        c.translate(box.x / 2, box.y / 2);
+        boxes.radius -= boxes.damage; //reducing the box size when hit
+        if (boxes.radius <= 30) {
+            boxes.radius = 0;
+        }
+        c.restore()
     }
     // collision between the player and the boxes
     hitCollision = new Collision(box, Player).checkCircleandRect(c, { arms: false });
     if (hitCollision === true && up == true ||
         hitCollision === true && down == true ||
         hitCollision === true && left == true ||
-        hitCollision === true && right == true  ) {
+        hitCollision === true && right == true) {
         // speed.value = 0;
         if (speed.value == speed.value) {
-        speed.value = -speed.value
-        // console.log(parseInt(-speed.value));
+            speed.value = -speed.value
+            // console.log(parseInt(-speed.value));
         }
         // setTimeout(function () {
         //     speed.value = Math.abs(speed.value);
@@ -101,8 +112,10 @@ function animate() {
     c.translate(offset.x, offset.y);
     c.fillRect(-offset.x, -offset.y, canvas.width, canvas.height);
     map = new Map(c, { size: 90, amount: 10 })
-    DrawMap();
+    DrawCrates();
+    DrawBuildings();
     DrawPlayer();
+    collisionDetection();
     rotateFist1.render();
     rotateFist2.render();
     c.restore();

@@ -208,11 +208,11 @@ class Rotate {
         this.velocity = velocity;
         this.angle = 0;
         this.toAngle = this.angle;
-        this.binding()
+        this.binding();
     }
     binding() {
         const self = this;
-        window.addEventListener("mousemove", function (e) {
+        addEventListener("mousemove", function (e) {
             self.update(e.clientX, e.clientY);
         });
     }
