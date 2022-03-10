@@ -2,7 +2,8 @@ import { Player, Fist1, Fist2, offset} from "./index.js";
 
 ///////// CONSTANTS
 const speed = {
-   value: 2
+    value: 2,
+    main: 5,
 };
 const height = 20;
 /////////

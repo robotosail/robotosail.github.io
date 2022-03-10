@@ -201,7 +201,7 @@ class Collision{
 }
 
 class Rotate {
-    constructor(c,{ x = 100, y = 100, velocity = { x: canvas.width / 2, y: canvas.height / 2 } }) {
+    constructor(c,{ x = 100, y = 100, velocity = { x: canvas1.width / 2, y: canvas1.height / 2 } }) {
         this.c = c
         this.x = x;
         this.y = y;
@@ -231,6 +231,7 @@ class Rotate {
             this.c.rotate(this.toAngle - this.angle);
         }
         this.c.rotate(187)
+        // this.c.rotate(90)
         Fist1.draw();
         Fist2.draw()
         this.c.restore();
