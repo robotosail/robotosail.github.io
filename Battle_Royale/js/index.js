@@ -110,13 +110,11 @@ function resize() {
 function animate() {
     requestAnimationFrame(animate);
      // clearing the canvas so that the buffer doesn't show
-    c2.fillStyle = canvasColor;
     c.fillStyle = canvasColor;
     c.save();
-    c2.save();
-    c.translate(offset.x, offset.y);
+    c.translate(offset.x, offset.y); // give illusion off player moving -- basically the camera
     // clearing the first canvas
-    c.clearRect(-offset.x, -offset.y, canvas.width, canvas.height);
+    c.fillRect(-offset.x, -offset.y, canvas.width, canvas.height);
 
     map = new Map(c, { size: 100, amount: 50 })
     DrawCrates();
@@ -133,7 +131,7 @@ function animate2() {
     requestAnimationFrame(animate2)
     c2.fillStyle = canvasColor;
     c2.save();
-    c2.translate(offset.x, offset.y);
+    c2.translate(offset.x, offset.y); // to make the player move with the camera
     // c.fillRect(-offset.x, -offset.y, canvas.width, canvas.height);
     c2.clearRect(-offset.x, -offset.y, canvas.width, canvas.height);
     // DrawCrates();
