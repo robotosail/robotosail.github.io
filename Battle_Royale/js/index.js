@@ -5,12 +5,14 @@ import { clicking, speed, up, down, left, right } from "./controls.js";
 
 ///////// CONSTANT VARIABLES
 const canvas = document.getElementById("canvas");
-const c = canvas.getContext("2d");
-const canvasColor = "rgba(250, 0,  0, 1)"; //set to point 1 to add draging effect
+const canvas2 = document.getElementById("canvas2");
+const c = canvas.getContext("2d"); //all the static assets like the crate get drawn on here
+const c2 = canvas2.getContext("2d");
+// const canvasColor = "rgba(250, 0,  0, 1)"; //set to point 1 to add draging effect
+const canvasColor = "green"; //set to point 1 to add draging effect
 const width = innerWidth;
 const height = innerHeight;
 /////////
-
 ///////// LET VARIABLES
 let offset = {
     x: 0,
@@ -39,13 +41,13 @@ let boxes = {
     color: "brown"
 }
 
-let Player = new Circle(c, player);
-let Fist1 = new Circle(c, { x: fist.x1, y: fist.y1, radius: fist.radius, color: fist.color, outline: true });
-let Fist2 = new Circle(c, { x: fist.x2, y: fist.y2, radius: fist.radius, color: fist.color, outline: true });
+let Player = new Circle(c2, player);
+let Fist1 = new Circle(c2, { x: fist.x1, y: fist.y1, radius: fist.radius, color: fist.color, outline: true });
+let Fist2 = new Circle(c2, { x: fist.x2, y: fist.y2, radius: fist.radius, color: fist.color, outline: true });
 let map, box, box1, crates = [], destroyCollision1, hitCollision, building;
 // allows player to rotate
-let rotateFist1 = new Rotate(c, { x: Player.x, y: Player.y });
-let rotateFist2 = new Rotate(c, { x: Player.x, y: Player.y });
+let rotateFist1 = new Rotate(c2, { x: Player.x, y: Player.y });
+let rotateFist2 = new Rotate(c2, { x: Player.x, y: Player.y });
 /////////
 
 
@@ -100,34 +102,56 @@ function collisionDetection() {
 }
 // resizing the canvas
 function resize() {
-    new Resize(canvas, { width:width, height:height, update:false, color: canvasColor });
+    new Resize(canvas, { width: width, height: height, update: false, color: canvasColor });
+    new Resize(canvas2, { width:canvas.width, height:canvas.height, update:false, color: canvasColor,});
 }
 
 //animate
 function animate() {
     requestAnimationFrame(animate);
      // clearing the canvas so that the buffer doesn't show
+    c2.fillStyle = canvasColor;
     c.fillStyle = canvasColor;
-    c.save()
+    c.save();
+    c2.save();
     c.translate(offset.x, offset.y);
-    // c.fillRect(-offset.x, -offset.y, canvas.width, canvas.height);
-    c.fillRect(-offset.x, -offset.y, canvas.width, canvas.height);
+    // clearing the first canvas
+    c.clearRect(-offset.x, -offset.y, canvas.width, canvas.height);
+
     map = new Map(c, { size: 100, amount: 50 })
     DrawCrates();
     DrawBuildings();
-    DrawPlayer();
     collisionDetection();
-    rotateFist1.render();
-    rotateFist2.render();
+    // c2.fillStyle = 'black'
+    // c2.fillRect(100, 100, 100, 100)
     c.restore();
     // c.clearRect()
 
+}
+
+function animate2() {
+    requestAnimationFrame(animate2)
+    c2.fillStyle = canvasColor;
+    c2.save();
+    c2.translate(offset.x, offset.y);
+    // c.fillRect(-offset.x, -offset.y, canvas.width, canvas.height);
+    c2.clearRect(-offset.x, -offset.y, canvas.width, canvas.height);
+    // DrawCrates();
+    // DrawBuildings();
+    DrawPlayer();
+    // collisionDetection();
+    rotateFist1.render();
+    rotateFist2.render();
+    // c2.fillStyle = 'black'
+    // c2.fillRect(100, 100, 100, 100)
+    c2.restore();
 }
 
 /////////
 
 //////// FUNCTIONS CALL
 resize();
+animate2();
 animate();
 ////////
 
