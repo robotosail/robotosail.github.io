@@ -1,5 +1,5 @@
 ///////// IMPORTS
-import { Resize, Circle, Map, Square, Collision, Rotate } from "./classes.js";
+import { Resize, Circle, Map, Square, Collision, Rotate, DrawImage } from "./classes.js";
 import { clicking, speed, up, down, left, right } from "./controls.js";
 /////////
 
@@ -37,8 +37,14 @@ let fist = {
 }
 let boxes = {
     radius: 100,
+    x: Math.random(10) * 1000,
+    y: Math.random(10) * 1000,
     damage: 10,
     color: "brown"
+}
+let mappos = {
+    x: Math.random(-2) * -100,
+    y: Math.random(-2) * -100
 }
 
 let Player = new Circle(c1, player);
@@ -48,8 +54,17 @@ let map, box, box1, crates = [], destroyCollision1, hitCollision, building;
 // allows player to rotate
 let rotateFist1 = new Rotate(c1, { x: Player.x, y: Player.y });
 let rotateFist2 = new Rotate(c1, { x: Player.x, y: Player.y });
+let image = new Image();
+image.src = "assets/scar.png";
 /////////
 
+if (mappos.x <= -60 || mappos.y <= -60) {
+    speed.value = 4;
+    // console.log("greater");
+}
+else {
+    speed.value = speed.main;
+}
 
 ///////// FUNCTIONS DEFINED
 function DrawPlayer() {
@@ -58,12 +73,19 @@ function DrawPlayer() {
     Player.draw();
 }
 
+// let x = Math.random(10) * 1000, y = Math.random(10) * 1000;
+let x = Math.random(100) * 1000, y =537;
 function DrawBuildings() {
-    building = new Square(c2, {x: 100, y:600, width: 500, height: 500, color: "blue"})
+        // building = new Square(c2, {
+        //     x: x, y: y, width: 800, height: 800, color: "blue", outline: true,
+        // })
+    
+    let building2 = new DrawImage(c2, "../assets/building1.png", { x: x, y: y, width: 800, height: 800 });
+        // console.log("building.x");
 }
 
 function DrawCrates() {
-    box = new Square(c2, { x: 400, y: 100, width: boxes.radius, height: boxes.radius, color: boxes.color, outline: true });
+    box = new Square(c2, { x: boxes.x, y: boxes.y, width: boxes.radius, height: boxes.radius, color: boxes.color, outline: true });
     crates.push(box);
     
 }
@@ -79,7 +101,7 @@ function collisionDetection() {
         if (boxes.radius <= 30) {
             boxes.radius = 0;
         }
-        c2.restore()
+        c2.restore();
     }
     // collision between the player and the boxes
     hitCollision = new Collision(box, Player).checkCircleandRect(c2, { arms: false });
@@ -102,8 +124,8 @@ function collisionDetection() {
 }
 // resizing the canvas1
 function resize() {
-    new Resize(canvas1, { width: width, height: height, update: false, color: canvasColor });
-    new Resize(canvas2, { width:canvas1.width, height:canvas1.height, update:false, color: canvasColor,});
+    new Resize(canvas1, { width: width, height: height, update: false,});
+    new Resize(canvas2, { width:canvas1.width, height:canvas1.height, update:false, });
 }
 
 // animation for the player canvas1
@@ -132,16 +154,20 @@ function animate2() {
     c2.fillStyle = canvasColor;
     c2.save();
     c2.translate(offset.x, offset.y); // give illusion off player moving -- basically the camera
+
     // clearing the first canvas1
     c2.fillRect(-offset.x, -offset.y, canvas2.width, canvas2.height);
 
     // drawing the map
-    map = new Map(c2, { size: 500, amount: 50 })
-    DrawCrates();
+    map = new Map(c2, { x: mappos.x, y: mappos.y, size: 500, amount: 50 })
     DrawBuildings();
+    DrawCrates();
     collisionDetection();
     // c1.fillStyle = 'black'
     // c1.fillRect(100, 100, 100, 100)
+    if (boxes.radius <= 0) {
+        c2.drawImage(image, boxes.x, boxes.y, 100, 100)
+    }
     c2.restore();
     // c2.clearRect()
 }
@@ -150,6 +176,8 @@ function animate2() {
 
 //////// FUNCTIONS CALL
 resize();
+DrawBuildings();
+
 animate();
 animate2();
 ////////

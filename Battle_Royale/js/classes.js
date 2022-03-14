@@ -124,17 +124,19 @@ class Square{
 }
 
 class Map{ //extending the resize to the map
-    constructor(c, {size = 10, amount = 10 }) {
+    constructor(c, {x = -2, y= -2, size = 10, amount = 10 }) {
         this.c = c;
+        this.x = x;
+        this.y = y;
         this.size = size;
         this.amount = amount;
         
-        this.draw( this.c, this.amount,this.size);
+        this.draw( this.c, this.x, this.y, this.amount,this.size);
     }
    
-    draw( c, amount, size) {
-        for (let i = 0; i < amount; i++){ // for the y axis
-            for (let j = 0; j < amount; j++){ // for the x axis
+    draw( c, x, y, amount, size) {
+        for (let i = y; i < amount; i++){ // for the y axis
+            for (let j = x; j < amount; j++){ // for the x axis
                 c.save()
                 c.fillStyle = "green";
                 // translating so that the boxes move to a different position each time
@@ -237,6 +239,23 @@ class Rotate {
         this.c.restore();
     }
 }
+
+class DrawImage{
+    constructor(c, src, {x, y, width, height}) {
+        this.c = c;
+        this.src = src;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.draw(this.c, this.src, this.x, this.y, this.width, this.height);
+    }
+    draw(c, src, x, y, width, height) {
+        let image = new Image();
+        image.src = src;
+        c.drawImage(x, y, width, height);
+    }
+}
 ///////
 
 /////// EXPORTS
@@ -246,6 +265,7 @@ export {
     Square,
     Map,
     Rotate,
-    Collision
+    Collision,
+    DrawImage
 }
 ///////
