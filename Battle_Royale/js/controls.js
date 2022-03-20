@@ -1,4 +1,4 @@
-import { Player, Fist1, Fist2, offset} from "./index.js";
+import { Player, Fist1, Fist2, offset, c2} from "./index.js";
 
 ///////// CONSTANTS
 const speed = {
@@ -75,6 +75,7 @@ function click(e) {
                 Fist1.y = Fist1.y - height;
                 clicking = false;
             }, 100);
+            // c2.scale(100, 100);
             break;
     
         default:
