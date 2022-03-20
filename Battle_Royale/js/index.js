@@ -23,7 +23,7 @@ let player = {
     x: width / 2,
     y: height / 2, //so it is always in the middle of the screen
     color: "rgba(20, 200, 100, 10)",
-    radius: 25,
+    radius: 20,
     outline: true,
     lineWidth: 5
 }
@@ -32,12 +32,12 @@ let offset = {
     y: -player.y + height /2
 };
 let fist = {
-    x1: 26,
-    x2:  -28,
-    y1: 27,
-    y2: 25,
+    x1: 20,
+    x2:  -18,
+    y1: 16,
+    y2: 20,
     color: "blue",
-    radius: 10
+    radius: 7
 }
 let boxes = {
     radius: 100,
@@ -91,48 +91,59 @@ function DrawBuildings() {
 }
 
 function DrawCrates() {
-    box = new Square(c2, { x: player.x, y: player.y, width: boxes.radius, height: boxes.radius, color: boxes.color, outline: true });
+    for (let i = 0; i < 9; i++){
+        let random_x = randomNum(boxes.radius, (width - boxes.radius));
+        let random_y = randomNum(boxes.radius, (height - boxes.radius));
+        console.log("drawn");
+        box = new Square(c2, { x: player.x + random_x, y: player.y + random_y, width: boxes.radius, height: boxes.radius, color: boxes.color, outline: true });
     crates.push(box);
+    }
 }
+DrawCrates();
 
 // for detecting collision
 function collisionDetection() {
-    // for destroying the box
-    destroyCollision1 = new Collision(box, Fist1).checkCircleandRect(c2, { arms: true, player: Player });
-    if (destroyCollision1 == true && clicking) {
-        c2.save()
-        c2.translate(box.x / 2, box.y / 2);
-        boxes.radius -= boxes.damage; //reducing the box size when hit
-        if (boxes.radius <= 30) {
-            boxes.radius = 0;
-            weaponThere = true;
+   // looping thourgh the crates and adding collision
+    crates.forEach(crate => {
+         // for destroying the box
+        destroyCollision1 = new Collision(crate, Fist1).checkCircleandRect(c2, { arms: true, player: Player });
+        if (destroyCollision1 == true && clicking) {
+            c2.save()
+            c2.translate(crate.x / 2, crate.y / 2);
+            crate.width -= boxes.damage; //reducing the crate size when hit
+            crate.height -= boxes.damage; //reducing the crate size when hit
+            if (crate.width <= 30 || crate.height <= 30) {
+                crate.width = 0;
+                crate.height = 0;
+                weaponThere = true;
+            }
+            c2.restore();
         }
-        c2.restore();
-    }
-    // collision between the player and the boxes
-    hitCollision = new Collision(box, Player).checkCircleandRect(c2, { arms: false});
-    if (hitCollision === true && up == true ||
-        hitCollision === true && down == true ||
-        hitCollision === true && left == true ||
-        hitCollision === true && right == true) {
-        // speed.value = 0;
-        if (speed.value == speed.value) {
-            speed.value = -speed.value
-            // console.log(parseInt(-speed.value));
+        // collision between the player and the boxes
+        hitCollision = new Collision(crate, Player).checkCircleandRect(c2, { arms: false});
+        if (hitCollision === true && up == true ||
+            hitCollision === true && down == true ||
+            hitCollision === true && left == true ||
+            hitCollision === true && right == true) {
+            // speed.value = 0;
+            if (speed.value == speed.value) {
+                speed.value = -speed.value
+                // console.log(parseInt(-speed.value));
+            }
+            setTimeout(function () {
+                speed.value = Math.abs(speed.value);
+            },100)
         }
-        setTimeout(function () {
-            speed.value = Math.abs(speed.value);
-        },100)
-    }
-    // else {
-    //     speed.value = speed.main;
-    // }
-
-    if (weaponThere === true) {
-        c2.drawImage(image, boxes.x, boxes.y, 100, 100); // draws the gun
-    }
-
-    let touchcollision = new Collision(Fist2, box, player).checkRect(c1)
+        // else {
+        //     speed.value = speed.main;
+        // }
+    
+        if (weaponThere === true) {
+            c2.drawImage(image, crate.x, crate.y, 100, 100); // draws the gun
+        }
+    
+        // let touchcollision = new Collision(Fist2, box, player).checkRect(c1)
+    })
 }
 // resizing the canvas1
 function resize() {
@@ -162,6 +173,7 @@ function animate() {
 }
 
 //animate for the main canvas1
+
 function animate2() {
     requestAnimationFrame(animate2)
     c2.save();
@@ -169,9 +181,11 @@ function animate2() {
 
     // clearing the first canvas1
     c2.clearRect(-offset.x, -offset.y, canvas2.width, canvas2.height);
+    // making random boxes
+    crates.forEach(crate => {
+        crate.draw();
+    })
 
-    // drawing the map
-    DrawCrates();
     collisionDetection();
     // c1.fillStyle = 'black'
     // c1.fillRect(100, 100, 100, 100)
@@ -197,6 +211,11 @@ function animate4() {
     c4.fillRect(-offset.x, -offset.y, canvas2.width, canvas2.height);
     map = new Map(c4, { x: mappos.x, y: mappos.y, size: 500, amount: 50 })
     c4.restore();
+}
+
+function randomNum(min, max) {
+    let result = Math.random() * (max - min) - min;
+    return result;
 }
 /////////
 
