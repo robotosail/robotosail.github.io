@@ -150,9 +150,10 @@ class Map{ //extending the resize to the map
 }
 
 class Collision{
-    constructor(obj1, obj2) {
+    constructor(obj1, obj2, obj3) {
         this.obj1 = obj1;
         this.obj2 = obj2;
+        this.obj3 = obj3;
     }
     checkCircle() {
         const dist = Math.hypot(this.obj1.x - this.obj2.x, this.obj1.y - this.obj2.y)
@@ -200,6 +201,16 @@ class Collision{
         // let dy = disty - this.obj1.height /2;//add / 2 to detect center of objects
         // // return (dx * dx + dy * dy <= (this.obj2.r * this.obj2.r));
     }
+    checkRect(c) {
+        // const firstx = this.obj3.x - this.obj1.x;
+        const distx = this.obj2.x - this.obj1.x;
+        console.log(distx / 2);
+        console.log();
+        if (distx >= this.obj2.x / 2 - this.obj1.x / 2) {
+            console.log("so far so good");
+            return false;
+        }
+    }
 }
 
 class Rotate {
@@ -241,19 +252,20 @@ class Rotate {
 }
 
 class DrawImage{
-    constructor(c, src, {x, y, width, height}) {
+    constructor(c, src, {x, y, width = 100, height = 100}) {
         this.c = c;
         this.src = src;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.draw(this.c, this.src, this.x, this.y, this.width, this.height);
+        this.image
+        this.draw(this.c, this.src, this.x, this.y);
     }
-    draw(c, src, x, y, width, height) {
-        let image = new Image();
-        image.src = src;
-        c.drawImage(x, y, width, height);
+    draw(c, src, x, y) {
+        this.image = new Image();
+        this.image.src = src;
+        c.drawImage(this.image,x, y, this.width, this.height);
     }
 }
 ///////

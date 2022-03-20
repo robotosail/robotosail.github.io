@@ -9,11 +9,28 @@
     position: absolute;
     width: 100vw;
     height: 100vh;
-    z-index: 1; /*this is ontop*/
+    z-index: 4; /*this is ontop*/
 }
 
 #canvas2{
     position: absolute;
     width: 100vw;
     height: 100vh;
+    z-index: 3; /*then this*/
+    
+}
+
+#canvas3{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2;
+    
+}
+
+#canvas4{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
 }

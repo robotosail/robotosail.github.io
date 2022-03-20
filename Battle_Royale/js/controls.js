@@ -15,7 +15,7 @@ let left = false;
 let right = false;
 let clicking = false;
 /////////
-
+console.log(speed.value, speed.main);
 ///////// FUNCTIONS
 function move(e) {
     // console.log(e.key);
