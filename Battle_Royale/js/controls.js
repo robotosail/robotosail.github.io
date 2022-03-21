@@ -75,7 +75,6 @@ function click(e) {
                 Fist1.y = Fist1.y - height;
                 clicking = false;
             }, 100);
-            // c2.scale(100, 100);
             break;
     
         default:

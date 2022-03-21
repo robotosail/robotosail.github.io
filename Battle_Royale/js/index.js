@@ -90,12 +90,13 @@ function DrawBuildings() {
         // console.log("building.x");
 }
 
+//draw at random position
 function DrawCrates() {
-    for (let i = 0; i < 9; i++){
+    for (let i = 0; i < 100; i++){
         let random_x = randomNum(boxes.radius, (width - boxes.radius));
         let random_y = randomNum(boxes.radius, (height - boxes.radius));
-        console.log("drawn");
-        box = new Square(c2, { x: player.x + random_x, y: player.y + random_y, width: boxes.radius, height: boxes.radius, color: boxes.color, outline: true });
+        // console.log("drawn");
+        box = new Square(c2, { x: random_x, y: random_y, width: boxes.radius, height: boxes.radius, color: boxes.color, outline: true });
     crates.push(box);
     }
 }
@@ -138,8 +139,9 @@ function collisionDetection() {
         //     speed.value = speed.main;
         // }
     
-        if (weaponThere === true) {
+        if (weaponThere === true && crate.width == 0 && crate.height == 0) {
             c2.drawImage(image, crate.x, crate.y, 100, 100); // draws the gun
+            // c2.scale(2, 2);
         }
     
         // let touchcollision = new Collision(Fist2, box, player).checkRect(c1)
@@ -172,8 +174,7 @@ function animate() {
     c1.restore();
 }
 
-//animate for the main canvas1
-
+//animate for the boxes and trees canvas1
 function animate2() {
     requestAnimationFrame(animate2)
     c2.save();
@@ -191,8 +192,10 @@ function animate2() {
     // c1.fillRect(100, 100, 100, 100)
     c2.restore();
     // c2.clearRect()
+    
 }
 
+//the canvas for the buildings
 function animate3() {
     requestAnimationFrame(animate3);
     c3.save();
@@ -203,6 +206,7 @@ function animate3() {
 
 }
 
+//the canvas for the map
 function animate4() {
     requestAnimationFrame(animate4);
     // c4.fillStyle = canvasColor;
@@ -213,6 +217,7 @@ function animate4() {
     c4.restore();
 }
 
+// creating random x and y
 function randomNum(min, max) {
     let result = Math.random() * (max - min) - min;
     return result;
