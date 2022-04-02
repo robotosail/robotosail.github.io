@@ -20,6 +20,17 @@ Battle Royale Todo:
   [x] add collision for when boxes are punched.
   [x] stop player from going through objects.
   [x] make player rotate.
-  [] add buildings
-  [] add guns
+  [x] add buildings
+  [x] add guns
+  [x] add crates
+  [x] add collisions with boxes.
+  [x] detect collsion for when the player is over the gun.
+  [] allow player to pick up the gun
   [] add bullet.
+
+  when the boxes touch each other meaning when there is a collision the colors of those boxes should change.
+
+Main website:
+  [] add the new games
+  [] make page responsive
+  [] have a dark and light mode.

@@ -156,10 +156,10 @@
 }
 
 /* position */
-.pos-absolute{
+.pos-abs{
     position: absolute;
 }
-.pos-relative{
+.pos-rel{
     position: relative;
 }
 .pos-fixed{
@@ -167,6 +167,9 @@
 }
 .pos-inherit{
     position: inherit;
+}
+.pos-sticky{
+    position: sticky;
 }
 /* end of position */
 
@@ -4773,6 +4776,19 @@
     border: solid lime 1px;
 }.thumb-border-1px-black::-webkit-scrollbar-thumb{
     border: solid black 1px;
+}
+
+
+/* transitions */
+.ease-in{
+    transition: ease-in;
+    animation-name: ease-in;
+}
+
+@keyframes ease-in {
+    0%{
+        transition-duration: 6;
+    }
 }
 
 :root{

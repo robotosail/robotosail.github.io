@@ -2,8 +2,8 @@ import { Player, Fist1, Fist2, offset, c2} from "./index.js";
 
 ///////// CONSTANTS
 const speed = {
-    value: 4,
-    main: 4,
+    value: 6,
+    main: 6,
 };
 const height = 20;
 /////////
@@ -15,7 +15,7 @@ let left = false;
 let right = false;
 let clicking = false;
 /////////
-console.log(speed.value, speed.main);
+// console.log(speed.value, speed.main);
 ///////// FUNCTIONS
 function move(e) {
     // console.log(e.key);

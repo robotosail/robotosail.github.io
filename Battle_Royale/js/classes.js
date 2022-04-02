@@ -1,4 +1,4 @@
-import { Player, Fist1, Fist2, player, fist } from "./index.js";
+import { Player, Fist1, Fist2, player, fist, width } from "./index.js";
 
 /////// CLASSES
 class Resize{
@@ -121,6 +121,16 @@ class Square{
         // this.draw(c, x, y, width, height);
         this.draw();
     }
+    // collide(obj2) {
+    //     if (this.x < obj2.x + obj2.width &&
+    //         this.x + this.width > obj2.x &&
+    //         this.y < obj2.y + obj2.height &&
+    //         this.height + this.y > obj2.y) {
+    //         // this.otherArray.push(this.obj1, this.obj2);
+    //         console.log("true");
+    //         return true;
+    //     }
+    // }
 }
 
 class Map{ //extending the resize to the map
@@ -150,10 +160,11 @@ class Map{ //extending the resize to the map
 }
 
 class Collision{
-    constructor(obj1, obj2, obj3) {
+    constructor({ obj1, obj2}) {
         this.obj1 = obj1;
         this.obj2 = obj2;
-        this.obj3 = obj3;
+        this.collision = false;
+        
     }
     checkCircle() {
         const dist = Math.hypot(this.obj1.x - this.obj2.x, this.obj1.y - this.obj2.y)
@@ -162,7 +173,7 @@ class Collision{
         }
         return false;
     }
-    checkCircleandRect(c, {arms = true, player}) { //obj1 being the rectangle and obj2 being the circle
+    checkCircleandRect({arms = true, player}) { //obj1 being the rectangle and obj2 being the circle
         // let distx = Math.round(Math.abs(this.obj2.x - this.obj1.x) / 2);//add / 2 to the end detect center of objects
         // let disty = Math.round(Math.abs(this.obj2.y - this.obj1.y) / 2);//add / 2 to the end to detect center of objects
         let distx, disty;
@@ -187,11 +198,11 @@ class Collision{
         // checks if the x is greater than the width and radius
         if (distx >= (this.obj1.width - this.obj2.radius)) { return false }; 
         // check if the x is less than 0 then set it to false
-        if (distx <= -20) { return false }; // the max distance before the collision happens
+        if (distx <= -15) { return false }; // the max distance before the collision happens
         
         if (disty >= (this.obj1.height - this.obj2.radius)) { return false };
         // check if the y is less than 0 then set it to false
-        if (disty <= -20) { return false }; // the max distance before the collision happens
+        if (disty <= -15) { return false }; // the max distance before the collision happens
         
         // checks if the center of both objects are closer to each other
         if (distx < (this.obj1.width)) { return true; }//add / 2 so the detection happens exactly
@@ -201,15 +212,22 @@ class Collision{
         // let dy = disty - this.obj1.height /2;//add / 2 to detect center of objects
         // // return (dx * dx + dy * dy <= (this.obj2.r * this.obj2.r));
     }
-    checkRect(c) {
-        // const firstx = this.obj3.x - this.obj1.x;
-        const distx = this.obj2.x - this.obj1.x;
-        console.log(distx / 2);
-        console.log();
-        if (distx >= this.obj2.x / 2 - this.obj1.x / 2) {
-            console.log("so far so good");
-            return false;
+    checkRect() {
+        // if (this.isArry === true) {
+            // for (let i = 0; i < this.arry.length; i++) {
+            //     this.obj1 = this.arry[i];
+            //     i+= 1;
+            //     this.obj2 = this.arry[i];
+                // console.log(this.obj2.x);
+                // subtracting the objects 
+            if (this.obj1.x < this.obj2.x + this.obj2.width &&
+                this.obj1.x + this.obj1.width > this.obj2.x &&
+                this.obj1.y < this.obj2.y + this.obj2.height &&
+                this.obj1.height + this.obj1.y > this.obj2.y) {
+                // this.otherArray.push(this.obj1, this.obj2);
+                return true;
         }
+        return false;
     }
 }
 
@@ -268,16 +286,39 @@ class DrawImage{
         c.drawImage(this.image,x, y, this.width, this.height);
     }
 }
+
+class Gun{
+    constructor(c, { src, x, y, width, height }) {
+        this.c = c;
+        this.src = src;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.draw();
+    }
+    draw() {
+        let gun = new Image();
+        gun.src = this.src;
+        if (this.width || this.height) {
+            this.c.drawImage(gun, this.x, this.y, this.width, this.height);
+        }
+        else {
+            this.c.drawImage(gun, this.x, this.y);
+        }
+    }
+}
 ///////
 
 /////// EXPORTS
-export {
+export{
     Resize,
     Circle,
     Square,
     Map,
     Rotate,
     Collision,
-    DrawImage
+    DrawImage,
+    Gun
 }
 ///////

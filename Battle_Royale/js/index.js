@@ -1,5 +1,5 @@
 ///////// IMPORTS
-import { Resize, Circle, Map, Square, Collision, Rotate, DrawImage } from "./classes.js";
+import * as RBTS from "./classes.js";
 import { clicking, speed, up, down, left, right } from "./controls.js";
 /////////
 
@@ -17,6 +17,7 @@ const canvasColor = "skyblue"; //set to point 1 to add draging effect
 const width = innerWidth;
 const height = innerHeight;
 /////////
+
 ///////// LET VARIABLES
 
 let player = {
@@ -50,184 +51,282 @@ let mappos = {
     x: Math.random(-2) * -100,
     y: Math.random(-2) * -100
 }
-
-let Player = new Circle(c1, player);
-let Fist1 = new Circle(c1, { x: fist.x1, y: fist.y1, radius: fist.radius, color: fist.color, outline: true });
-let Fist2 = new Circle(c1, { x: fist.x2, y: fist.y2, radius: fist.radius, color: fist.color, outline: true });
+let colors = ["green", "red", "purple", "orange", "magenta", "pink", "blue", "cyan"];
+let Player = new RBTS.Circle(c1, player),
+Fist1 = new RBTS.Circle(c1, { x: fist.x1, y: fist.y1, radius: fist.radius, color: fist.color, outline: true }),
+Fist2 = new RBTS.Circle(c1, { x: fist.x2, y: fist.y2, radius: fist.radius, color: fist.color, outline: true });
 // let Fist2 = new Square(c1, { x: fist.x2, y: fist.y2, width: fist.radius, height: fist.radius, color: fist.color, outline: true });
-let map, box, box1, crates = [], destroyCollision1, hitCollision, building;
+let map, box, box2, crates = [], crates2 = [], destroyCollision1, destroyCollision2, hitCollision1, hitCollision2;
 // allows player to rotate
-let rotateFist1 = new Rotate(c1, { x: Player.x, y: Player.y });
-let rotateFist2 = new Rotate(c1, { x: Player.x, y: Player.y });
-let image = new Image();
-let weaponThere = false;
-image.src = "assets/scar.png";
-/////////
+let rotateFist1 = new RBTS.Rotate(c1, { x: Player.x, y: Player.y }),
+    rotateFist2 = new RBTS.Rotate(c1, { x: Player.x, y: Player.y }), weaponThere1 = false, weaponThere2 = false, random_x1, random_y1, random_x2, random_y2, x = player.x, y = player.y, weapon = { x: 0, y: 0, width: 60, height: 60, src: "assets/scar.png" }, gun, guns = [], surrounding;
+let overcollision1, overcollision2;
 
-// if (mappos.x <= -60 || mappos.y <= -60) {
-//     speed.value = 4;
-//     // console.log("greater");
-// }
-// else {
-//     speed.value = speed.main;
-// }
+    /////////
+
 
 ///////// FUNCTIONS DEFINED
-function DrawPlayer() {
-   
-    // drawing the player
-    Player.draw();
-}
+    // console.time("loop") //gives you the amount of time something takes
+    // console.timeEnd("loop") //gives you the amount of time something takes
+    // console.group("Group") //create group for the log message
+    // console.groupEnd()
 
-// let x = Math.random(10) * 1000, y = Math.random(10) * 1000;
-let x = player.x, y = player.y;
-function DrawBuildings() {
-        // building = new Square(c2, {
-        //     x: x, y: y, width: 800, height: 800, color: "blue", outline: true,
-        // })
+    function DrawPlayer() {
     
-    let building2 = new DrawImage(c3, "./assets/building1.png", { x: x, y: y, width: 800, height: 800 });
-        // console.log("building.x");
-}
-
-//draw at random position
-function DrawCrates() {
-    for (let i = 0; i < 100; i++){
-        let random_x = randomNum(boxes.radius, (width - boxes.radius));
-        let random_y = randomNum(boxes.radius, (height - boxes.radius));
-        // console.log("drawn");
-        box = new Square(c2, { x: random_x, y: random_y, width: boxes.radius, height: boxes.radius, color: boxes.color, outline: true });
-    crates.push(box);
+        // drawing the player
+        Player.draw();
     }
-}
-DrawCrates();
 
-// for detecting collision
-function collisionDetection() {
-   // looping thourgh the crates and adding collision
-    crates.forEach(crate => {
-         // for destroying the box
-        destroyCollision1 = new Collision(crate, Fist1).checkCircleandRect(c2, { arms: true, player: Player });
-        if (destroyCollision1 == true && clicking) {
-            c2.save()
-            c2.translate(crate.x / 2, crate.y / 2);
-            crate.width -= boxes.damage; //reducing the crate size when hit
-            crate.height -= boxes.damage; //reducing the crate size when hit
-            if (crate.width <= 30 || crate.height <= 30) {
-                crate.width = 0;
-                crate.height = 0;
-                weaponThere = true;
+    // let x = Math.random(10) * 1000, y = Math.random(10) * 1000;
+    function DrawBuildings() {
+            // building = new Square(c2, {
+            //     x: x, y: y, width: 800, height: 800, color: "blue", outline: true,
+            // })
+        
+        let building = new RBTS.DrawImage(c3, "./assets/building1.png", { x: x, y: y, width: 800, height: 800 });
+            // console.log("building.x");
+    }
+
+    //draw at random position
+    function DrawCrates() {
+        for (let i = 0; i < 16; i++){
+            random_x1 = randomNum(boxes.radius, ((width) - boxes.radius));
+            random_y1 = randomNum(boxes.radius, ((height) - boxes.radius));
+            random_x2 = randomNum(boxes.radius, ((width) - boxes.radius));
+            random_y2 = randomNum(boxes.radius, ((height) - boxes.radius));
+            // console.log("drawn");
+            box = new RBTS.Square(c2, { x: randomNum(boxes.radius, ((width) - boxes.radius)), y: randomNum(boxes.radius, ((height) - boxes.radius)), width: boxes.radius, height: boxes.radius, color: boxes.color, outline: true, update: true});
+            box2 = new RBTS.Square(c2, { x: random_x2, y: random_y2, width: boxes.radius, height: boxes.radius, color: boxes.color, outline: true, update: true });
+            if (box.x == box2.x && box.y == box2.y) {
+                box.x = random_x1;
+                box.y = random_y1;
+                box2.x = random_x2;
+                box2.y = random_y2;
             }
-            c2.restore();
+            crates.push(box);
+            crates2.push(box2);
         }
-        // collision between the player and the boxes
-        hitCollision = new Collision(crate, Player).checkCircleandRect(c2, { arms: false});
-        if (hitCollision === true && up == true ||
-            hitCollision === true && down == true ||
-            hitCollision === true && left == true ||
-            hitCollision === true && right == true) {
-            // speed.value = 0;
-            if (speed.value == speed.value) {
-                speed.value = -speed.value
-                // console.log(parseInt(-speed.value));
+        // console.table(crates);
+        // console.log(crates2);
+    }
+    // for detecting collision
+    function collisionDetection() {
+    // looping thourgh the crates and adding collision
+        crates.forEach(crate => {
+            // for destroying the box
+            destroyCollision1 = new RBTS.Collision({ obj1: crate, obj2: Fist1 }).checkCircleandRect({ arms: true, player: Player });
+            hitCollision1 = new RBTS.Collision({ obj1: crate, obj2: Player }).checkCircleandRect({ arms: false });
+
+            if (destroyCollision1 == true && clicking) {
+                c2.save()
+                c2.translate(crate.x / 2, crate.y / 2);
+                crate.width -= boxes.damage; //reducing the crate size when hit
+                crate.height -= boxes.damage; //reducing the crate size when hit
+                if (crate.width <= 30 || crate.height <= 30) {
+                    crate.width = 0;
+                    crate.height = 0;
+                    weaponThere1 = true;
+                }
+                c2.restore();
             }
-            setTimeout(function () {
-                speed.value = Math.abs(speed.value);
-            },100)
-        }
-        // else {
-        //     speed.value = speed.main;
-        // }
+            // collision between the player and the boxes
+            if (hitCollision1 === true && up == true ||
+                hitCollision1 === true && down == true ||
+                hitCollision1 === true && left == true ||
+                hitCollision1 === true && right == true) {
+                // speed.value = 0;
+                if (speed.value == speed.value) {
+                    speed.value = -speed.value
+                    // console.log(parseInt(-speed.value));
+                }
+                setTimeout(function () {
+                    speed.value = Math.abs(speed.value);
+                }, 100)
+            }
+        
+            if (weaponThere1 === true && crate.width == 0 && crate.height == 0) {
+                weapon.x = crate.x;
+                weapon.y = crate.y;
+                surrounding = new RBTS.Circle(c2, { x: weapon.x, y: weapon.y, radius: 50, update: false, outline: 2, color: "blue" })
+                gun = new RBTS.Gun(c2, { src: weapon.src, x: weapon.x, y: weapon.y, width: weapon.width, height: weapon.height });
+                overcollision1 = new RBTS.Collision({ obj1: weapon, obj2: player }).checkCircleandRect({ arms: false, player: player });
+                // c2.scale(2, 2);
+                if (overcollision1 === true) {
+                    console.log("yes");
+                    c1.fillStyle = "purple";
+                    c1.fillText("hi", player.x, player.y, 100);
+                }
+            }
+        });
+        
+        crates2.forEach(crate => {
+            // for destroying the box
+            destroyCollision2 = new RBTS.Collision({ obj1: crate, obj2: Fist1 }).checkCircleandRect({ arms: true, player: Player });
+            if (destroyCollision2 == true && clicking) {
+                c2.save()
+                c2.translate(crate.x / 2, crate.y / 2);
+                crate.width -= boxes.damage; //reducing the crate size when hit
+                crate.height -= boxes.damage; //reducing the crate size when hit
+                if (crate.width <= 30 || crate.height <= 30) {
+                    crate.width = 0;
+                    crate.height = 0;
+                    weaponThere2 = true;
+                }
+                c2.restore();
+            }
+            // collision between the player and the boxes
+            hitCollision2 = new RBTS.Collision({ obj1: crate, obj2: Player }).checkCircleandRect({ arms: false });
+            if (hitCollision2 === true && up == true ||
+                hitCollision2 === true && down == true ||
+                hitCollision2 === true && left == true ||
+                hitCollision2 === true && right == true) {
+                // speed.value = 0;
+                if (speed.value == speed.value) {
+                    speed.value = -speed.value
+                    // console.log(parseInt(-speed.value));
+                }
+                setTimeout(function () {
+                    speed.value = Math.abs(speed.value);
+                }, 100)
+            }
+
+            if (weaponThere2 === true && crate.width == 0 && crate.height == 0) {
+                weapon.x = crate.x;
+                weapon.y = crate.y;
+                surrounding = new RBTS.Circle(c2, {x: weapon.x, y: weapon.y, radius: 50, update: false, outline: 2, color: "blue"})
+                gun = new RBTS.Gun(c2, { src: weapon.src, x: weapon.x, y: weapon.y, width: weapon.width, height: weapon.height });
+                overcollision2 = new RBTS.Collision({ obj1: surrounding, obj2: player }).checkCircle();
+                //detect collsion for when the player is over the gun
+                if (overcollision2 === true) {
+                    console.log("yes");
+                    c1.fillStyle = "purple";
+                    c1.fillText("hi", player.x, player.y, 100);
+                }
+                else if( overcollision2 === false){
+                    console.log("no")
+                }
+            }
+        });
+    }
+// 
+    function collisionArray() {
+        
+        //collision detection for the boxes with the crate array
+        let arrays = [];
     
-        if (weaponThere === true && crate.width == 0 && crate.height == 0) {
-            c2.drawImage(image, crate.x, crate.y, 100, 100); // draws the gun
-            // c2.scale(2, 2);
-        }
-    
-        // let touchcollision = new Collision(Fist2, box, player).checkRect(c1)
-    })
-}
-// resizing the canvas1
-function resize() {
-    new Resize(canvas1, { width: width, height: height, update: false,});
-    new Resize(canvas2, { width:canvas1.width, height:canvas1.height, update:false, });
-    new Resize(canvas3, { width:canvas1.width, height:canvas1.height, update:false, });
-    new Resize(canvas4, { width:canvas1.width, height:canvas1.height, update:false, });
-}
+        //// if the crates are touching change their position.
+            for (let i = 0; i < crates.length; i++) {
+                for (let j = 0; j < crates2.length; j++) {
+                    // console.log(crates[j].x + crates[j].width)
+                    // console.log(crates[i].x)
+                    // console.log(i, j)
+                    // console.log(j)
+                    if (crates[i].x < crates2[j].x + crates2[j].width &&
+                        crates[i].x + crates[i].width > crates2[j].x &&
+                        crates[i].y < crates2[j].y + crates2[j].height &&
+                        crates[i].height + crates[i].y > crates2[j].y) {
+                        // this.otherArray.push(this.obj1, this.obj2);
+                        arrays.push(crates[i], crates2[j], crates[j], crates2[i])    
+                    }
+                }
+                for (let j = 0; j < arrays.length; j++) {
+                    const element = arrays[j];
+                    // element.color = "purple";
+                    element.x = random_x2;
+                    element.y  = random_y2;
+                }
+            }
+                    // console.table(arrays)
+                    // console.log(touchcollision)
 
-// animation for the player canvas1
-function animate() {
-    requestAnimationFrame(animate);
-    // c1.fillStyle = canvasColor;
-    c1.save();
-    c1.translate(offset.x, offset.y); // to make the player move with the camera
-    // c2.fillRect(-offset.x, -offset.y, canvas1.width, canvas.height);
-    c1.clearRect(-offset.x, -offset.y, canvas1.width, canvas1.height);
-    // DrawCrates();
-    // DrawBuildings();
-    DrawPlayer();
-    // collisionDetection();
-    rotateFist1.render();
-    rotateFist2.render();
-    // c1.fillStyle = 'black'
-    // c1.fillRect(100, 100, 100, 100)
-    c1.restore();
-}
+    }
 
-//animate for the boxes and trees canvas1
-function animate2() {
-    requestAnimationFrame(animate2)
-    c2.save();
-    c2.translate(offset.x, offset.y); // give illusion off player moving -- basically the camera
+    // resizing the canvas1
+    function resize() {
+        new RBTS.Resize(canvas1, { width: width, height: height, update: false,});
+        new RBTS.Resize(canvas2, { width:canvas1.width, height:canvas1.height, update:false, });
+        new RBTS.Resize(canvas3, { width:canvas1.width, height:canvas1.height, update:false, });
+        new RBTS.Resize(canvas4, { width:canvas1.width, height:canvas1.height, update:false, });
+    }
 
-    // clearing the first canvas1
-    c2.clearRect(-offset.x, -offset.y, canvas2.width, canvas2.height);
-    // making random boxes
-    crates.forEach(crate => {
-        crate.draw();
-    })
+    // animation for the player canvas1
+    function animate() {
+        requestAnimationFrame(animate);
+        // c1.fillStyle = canvasColor;
+        c1.save();
+        c1.translate(offset.x, offset.y); // to make the player move with the camera
+        // c2.fillRect(-offset.x, -offset.y, canvas1.width, canvas.height);
+        c1.clearRect(-offset.x, -offset.y, canvas1.width, canvas1.height);
+        // DrawCrates();
+        // DrawBuildings();
+        DrawPlayer();
+        // collisionDetection();
+        rotateFist1.render();
+        rotateFist2.render();
+        // c1.fillStyle = 'black'
+        // c1.fillRect(100, 100, 100, 100)
+        c1.restore();
+    }
 
-    collisionDetection();
-    // c1.fillStyle = 'black'
-    // c1.fillRect(100, 100, 100, 100)
-    c2.restore();
-    // c2.clearRect()
-    
-}
+    //animate for the boxes and trees canvas1
+    function animate2() {
+        requestAnimationFrame(animate2)
+        c2.save();
+        c2.translate(offset.x, offset.y); // give illusion off player moving -- basically the camera
 
-//the canvas for the buildings
-function animate3() {
-    requestAnimationFrame(animate3);
-    c3.save();
-    c3.translate(offset.x, offset.y); // give illusion off player moving -- basically the camera
-    c3.clearRect(-offset.x, -offset.y, canvas2.width, canvas2.height);
-    DrawBuildings();
-    c3.restore();
+        // clearing the first canvas1
+        c2.clearRect(-offset.x, -offset.y, canvas2.width, canvas2.height);
+        // making random boxes
+        crates.forEach(crate => {
+            crate.draw();
+        })
+        crates2.forEach(crate => {
+            crate.draw();
+        });
+        collisionDetection();
 
-}
+        // c1.fillStyle = 'black'
+        // c1.fillRect(100, 100, 100, 100)
+        c2.restore();
+        // c2.clearRect()   
+        
+    }
 
-//the canvas for the map
-function animate4() {
-    requestAnimationFrame(animate4);
-    // c4.fillStyle = canvasColor;
-    c4.save();
-    c4.translate(offset.x, offset.y); // give illusion off player moving -- basically the camera
-    c4.fillRect(-offset.x, -offset.y, canvas2.width, canvas2.height);
-    map = new Map(c4, { x: mappos.x, y: mappos.y, size: 500, amount: 50 })
-    c4.restore();
-}
+    //the canvas for the buildings
+    function animate3() {
+        requestAnimationFrame(animate3);
+        c3.save();
+        c3.translate(offset.x, offset.y); // give illusion off player moving -- basically the camera
+        c3.clearRect(-offset.x, -offset.y, canvas2.width, canvas2.height);
+        DrawBuildings();
+        c3.restore();
 
-// creating random x and y
-function randomNum(min, max) {
-    let result = Math.random() * (max - min) - min;
-    return result;
-}
+    }
+
+    //the canvas for the map
+    function animate4() {
+        requestAnimationFrame(animate4);
+        c4.fillStyle = canvasColor;
+        c4.save();
+        c4.translate(offset.x, offset.y); // give illusion off player moving -- basically the camera
+        c4.fillRect(-offset.x, -offset.y, canvas2.width, canvas2.height);
+        map = new RBTS.Map(c4, { x: mappos.x, y: mappos.y, size: 500, amount: 50 })
+        c4.restore();
+    }
+
+    // creating random x and y
+    function randomNum(min, max) {
+        let result = Math.random() * (max - min) - min;
+        return result;
+    }
+
 /////////
 
 //////// FUNCTIONS CALL
 resize();
 DrawBuildings();
-
+DrawCrates();
+collisionArray();
 animate();
 animate2();
 animate3();
