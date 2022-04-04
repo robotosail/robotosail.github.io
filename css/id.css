@@ -10,146 +10,150 @@ body{
     overflow-y: scroll;
 }
 
-#nav-bar{
-    width: 100%;
-    text-align: center;
-    animation: nav-bar-normal 2s; /*the name of the animation, and how the duration*/
-    /* animation-delay: 2s; */
-    animation-timing-function: ease-in-out;
-}
-
-@keyframes nav-bar-normal {
-    0%{
-        transform: translate(40%, 0%);
-        width: 50%;
-    }
-    100%{
-        /* transform: translate(50%, 0%); */
-        width: 100%;
-    }
-}
-
-nav ul{
-    margin-right: 20px;
-    text-align: center;
-}
-
-.links{
-    text-align: center;
-    margin:0 5px;
-    line-height: 80px;
-}
-
-#second-div{
-    position: absolute;
-    bottom:10%;
-
-}
-
-#text1{
-    top:100%;
-}
-
-#link2{
-    top: 150%;
-}
-
-#img2{
-    top: 170%;
-
-}
-
-#text{
-    top: 160%;
-}
-
-/* when the screen is 1000px in width */
-@media screen and (max-width:1000px) and (min-width:600px) {
+/* ids */
     #nav-bar{
-        width: 50%;
-        left: 25%;
-        animation: nav1 2s;
-        /* animation-delay: 2s; */
-        animation-timing-function: ease-in-out;
-    } 
-    #logo{
-        left: -20%;
-        animation: logo1 2s;
-    }
-    @keyframes nav1 {
-        0%{
         width: 100%;
-        left: 0%;
-        }
-        100%{
-        width: 50%;
-        left: 25%;
-        }
-    }
-    /* moving the logo */
-    @keyframes logo1 {
-        0%{
-            left: 40%;
-        }
-        100%{
-            left: -20%;
-        }
-    }
-}
-
-/* when the screen is 400px(google pixel 5) in width */
-@media screen and (max-width:400px) {
-    #nav-bar{
-        width: 80%;
-        left: 10%;
-        height: 20%;
-        animation: nav2 2s;
+        text-align: center;
+        animation: nav-bar-normal 1s; /*the name of the animation, and how the duration*/
         /* animation-delay: 2s; */
         animation-timing-function: ease-in-out;
     }
-    #logo{
-        left: 0%;
-        line-height: 30px;
-        animation: logo2 2s;
-        /* top: 50%; */
+
+    #nav-bar ul{
+        margin-right: 20px;
+        text-align: center;
     }
-    #logoimg{
-        /* top:40%; */
-        left: 34%;
-        width: 120px;
-        height: 120px;
-    }  
+
     .links{
-        margin:100px 5px;
-        animation: links 2s;
-        animation-timing-function: ease-in-out;
+        text-align: center;
+        margin:0 5px;
+        line-height: 80px;
     }
-    @keyframes nav2 {
-        0%{
-        width: 100%;
-        left: 0%;
-        }
-        100%{
-        width: 80%;
-        left: 10%;
-        height: 20%;
-        }
+
+    #second-div{
+        position: absolute;
+        bottom:10%;
+
     }
-    @keyframes logo2 {
-        0%{
+
+    #text1{
+        top:100%;
+    }
+
+    #link2{
+        top: 150%;
+    }
+
+    #img2{
+        top: 170%;
+
+    }
+
+    #text{
+        top: 160%;
+    }
+/*  */
+
+/* media and keyframes */
+    /* when the screen is 1000px in width */
+    @media screen and (max-width:1000px) and (min-width:600px) {
+        #nav-bar{
+            width: 50%;
+            left: 25%;
+            animation: nav1 1s;
+            /* animation-delay: 2s; */
+            animation-timing-function: ease-in-out;
+        } 
+        #logo{
+            left: -20%;
+            animation: logo1 1s;
+        }
+        @keyframes nav1 {
+            0%{
+            width: 100%;
             left: 0%;
+            }
+            100%{
+            width: 50%;
+            left: 25%;
+            }
         }
-        100%{
+        /* moving the logo */
+        @keyframes logo1 {
+            0%{
+                left: 40%;
+            }
+            100%{
+                left: -20%;
+            }
+        }
+    }
+
+    /* when the screen is 400px(google pixel 5) in width */
+    @media screen and (max-width:400px) {
+        #nav-bar{
+            width: 80%;
+            left: 10%;
+            height: 20%;
+            animation: nav2 1s;
+            /* animation-delay: 1s; */
+            animation-timing-function: ease-in-out;
+        }
+        #logo{
             left: 0%;
             line-height: 30px;
+            animation: logo2 1s;
+            /* top: 50%; */
+        }
+        #logoimg{
+            /* top:40%; */
+            left: 34%;
+            width: 120px;
+            height: 120px;
+        }  
+        .links{
+            margin:100px 5px;
+            animation: links 1s;
+            animation-timing-function: ease-in-out;
+        }
+        @keyframes nav2 {
+            0%{
+            width: 100%;
+            left: 0%;
+            }
+            100%{
+            width: 80%;
+            left: 10%;
+            height: 20%;
+            }
+        }
+        @keyframes logo2 {
+            0%{
+                left: 0%;
+            }
+            100%{
+                left: 0%;
+                line-height: 30px;
+            }
+        }
+        @keyframes links {
+            0%{
+                margin: 0px 5px;
+            }
+            100%{
+                margin: 100px 5px;
+            }
         }
     }
-    @keyframes links {
+
+    @keyframes nav-bar-normal {
         0%{
-            margin: 0px 5px;
+            transform: translate(40%, 0%);
+            width: 50%;
         }
         100%{
-            margin: 100px 5px;
+            /* transform: translate(50%, 0%); */
+            width: 100%;
         }
     }
-}
+/*  */

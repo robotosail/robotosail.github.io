@@ -7,3 +7,12 @@ console.log(test)
 //  |  ____   \    | |  | |     |  __ |_
 //  |  |   \   \   | |__| |     | |__|  }
 //  |__|    \___\  \______/     |_______]
+
+
+// for css use
+
+// for (let i = 0; i < 101; i++) {
+//     document.write(`.mrgn-rgt-${i}px{<br>
+//         margin-right: ${i}px;
+//     <br>}<br>`)
+// }
