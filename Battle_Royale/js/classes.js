@@ -308,6 +308,36 @@ class Gun{
         }
     }
 }
+
+class DrawText{
+    constructor(c, { text, x, y, mxwdth = 100, font, color, update = false }) {
+        this.c = c;
+        this.text = text;
+        this.x = x;
+        this.y = y;
+        this.mxwdth = mxwdth;
+        this.font = font;
+        this.color = color;
+        this.update = update;
+
+        if (this.update === true) {
+            this.animate();
+        }
+        else if (this.update === false) {
+            this.draw(this.c, this.text);
+        }
+    }
+    draw(c, text) {
+        if (this.color) {
+            c.fillStyle = this.color;
+        }
+        c.fillText(text, this.x, this.y, this.mxwdth);
+    }
+    animate() {
+        requestAnimationFrame(this.animate.bind(this));
+        this.draw(this.c, this.text);
+    }
+}
 ///////
 
 /////// EXPORTS
@@ -319,6 +349,7 @@ export{
     Rotate,
     Collision,
     DrawImage,
-    Gun
+    Gun,
+    DrawText
 }
 ///////

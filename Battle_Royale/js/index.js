@@ -59,7 +59,8 @@ Fist2 = new RBTS.Circle(c1, { x: fist.x2, y: fist.y2, radius: fist.radius, color
 let map, box, box2, crates = [], crates2 = [], destroyCollision1, destroyCollision2, hitCollision1, hitCollision2;
 // allows player to rotate
 let rotateFist1 = new RBTS.Rotate(c1, { x: Player.x, y: Player.y }),
-    rotateFist2 = new RBTS.Rotate(c1, { x: Player.x, y: Player.y }), weaponThere1 = false, weaponThere2 = false, random_x1, random_y1, random_x2, random_y2, x = player.x, y = player.y, weapon = { x: 0, y: 0, width: 60, height: 60, src: "assets/scar.png" }, gun, guns = [], surrounding;
+    rotateFist2 = new RBTS.Rotate(c1, { x: Player.x, y: Player.y }), weaponThere1 = false, weaponThere2 = false, random_x1, random_y1, random_x2, random_y2, x = player.x, y = player.y, weapon = { x: 0, y: 0, width: 60, height: 60, src: "assets/scar.png" },
+    gun, guns = [], surroundingCircle1, surroundingCircle2, circleArray = [], infoMessage, message = { color: "white", txt: "press e to pick up"};
 let overcollision1, overcollision2;
 
     /////////
@@ -147,20 +148,22 @@ let overcollision1, overcollision2;
             if (weaponThere1 === true && crate.width == 0 && crate.height == 0) {
                 weapon.x = crate.x;
                 weapon.y = crate.y;
-                surrounding = new RBTS.Circle(c2, { x: weapon.x, y: weapon.y, radius: 50, update: false, outline: 2, color: "blue" })
+                // instead of making things complicated by detecting collision between the player and the gun just create a circle and create a detection off of that
+                surroundingCircle1 = new RBTS.Circle(c2, { x: weapon.x + (weapon.width / 2), y: weapon.y + (weapon.height / 2), radius: 35, outline: true, color: "rgba(0, 0, 255, 0.5)" });
+                circleArray.push(surroundingCircle1);
+
                 gun = new RBTS.Gun(c2, { src: weapon.src, x: weapon.x, y: weapon.y, width: weapon.width, height: weapon.height });
-                overcollision1 = new RBTS.Collision({ obj1: weapon, obj2: player }).checkCircleandRect({ arms: false, player: player });
+                
+                overcollision1 = new RBTS.Collision({ obj1: surroundingCircle1, obj2: Player }).checkCircle();
                 // c2.scale(2, 2);
                 if (overcollision1 === true) {
-                    console.log("yes");
-                    c1.fillStyle = "purple";
-                    c1.fillText("hi", player.x, player.y, 100);
+                    infoMessage = new RBTS.DrawText(c2, {text: message.txt, x: gun.x, y: gun.y, mxwdth: 100, update: false, color: message.color})
                 }
             }
         });
-        
+        let test = false;
         crates2.forEach(crate => {
-            // for destroying the box
+            // for destroying the box,
             destroyCollision2 = new RBTS.Collision({ obj1: crate, obj2: Fist1 }).checkCircleandRect({ arms: true, player: Player });
             if (destroyCollision2 == true && clicking) {
                 c2.save()
@@ -174,6 +177,7 @@ let overcollision1, overcollision2;
                 }
                 c2.restore();
             }
+
             // collision between the player and the boxes
             hitCollision2 = new RBTS.Collision({ obj1: crate, obj2: Player }).checkCircleandRect({ arms: false });
             if (hitCollision2 === true && up == true ||
@@ -190,25 +194,27 @@ let overcollision1, overcollision2;
                 }, 100)
             }
 
+            //creating the weapon when it is there.
             if (weaponThere2 === true && crate.width == 0 && crate.height == 0) {
                 weapon.x = crate.x;
                 weapon.y = crate.y;
-                surrounding = new RBTS.Circle(c2, {x: weapon.x, y: weapon.y, radius: 50, update: false, outline: 2, color: "blue"})
+                surroundingCircle2 = new RBTS.Circle(c2, { x: weapon.x + (weapon.width / 2), y: weapon.y + (weapon.height / 2), radius: 35, outline: true, color: "rgba(0, 255, 0, 0.5)" })
+                circleArray.push(surroundingCircle1)
+
                 gun = new RBTS.Gun(c2, { src: weapon.src, x: weapon.x, y: weapon.y, width: weapon.width, height: weapon.height });
-                overcollision2 = new RBTS.Collision({ obj1: surrounding, obj2: player }).checkCircle();
-                //detect collsion for when the player is over the gun
+                guns.push(gun)
+                overcollision2 = new RBTS.Collision({ obj1: surroundingCircle2, obj2: Player }).checkCircle();
+                //detect collsion for when the player is over the gun using the surrounding circle
                 if (overcollision2 === true) {
-                    console.log("yes");
-                    c1.fillStyle = "purple";
-                    c1.fillText("hi", player.x, player.y, 100);
-                }
-                else if( overcollision2 === false){
-                    console.log("no")
+                    infoMessage = new RBTS.DrawText(c2, { text: message.txt, x: gun.x, y: gun.y, mxwdth: 100, update: false, color: message.color });
+                    // test = true;
+                    c2.clearRect(gun.x - 10, gun.y- 10, 100, 100) //so far so good
                 }
             }
         });
+        
     }
-// 
+
     function collisionArray() {
         
         //collision detection for the boxes with the crate array

@@ -76,7 +76,7 @@ body{
 }
 
 /* green bg color */
-.color-green{
+.color-darkblue{
     color: rgba(102, 102, 236, 0.842);
 }
 
@@ -84,8 +84,12 @@ body{
     position: absolute;
     align-content: center;
     text-align: center;
-    left: 45%;
+    left: 35%;
     top: 10%;
+    background-color: rgba(135, 206, 250, 0.856);
+    width: 30%;
+    height: 10%;
     font-weight: bold;
-    text-decoration: underline;
+    border-radius: 50px;
+    /* text-decoration: underline; */
 }
