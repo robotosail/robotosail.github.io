@@ -1,4 +1,4 @@
-import { Player, Fist1, Fist2, offset, c2} from "./index.js";
+import { Player, Fist1, Fist2, offset, c2, update} from "./index.js";
 
 ///////// CONSTANTS
 const speed = {
@@ -14,6 +14,7 @@ let down = false;
 let left = false;
 let right = false;
 let clicking = false;
+let hands = true;
 /////////
 // console.log(speed.value, speed.main);
 ///////// FUNCTIONS
@@ -69,18 +70,28 @@ function stopMoving(e) {
 function click(e) {
     switch (e.button) {
         case 0:
-            Fist1.y = Fist1.y + height
-            clicking = true;
-            setTimeout(function () {
-                Fist1.y = Fist1.y - height;
-                clicking = false;
-            }, 100);
+            if (update == true) {
+                hands = false;
+                return;
+            }
+            else if(update == false){
+                hands = true;
+                if (hands === true) {
+                    Fist1.y = Fist1.y + height
+                    clicking = true;
+                    setTimeout(function () {
+                        Fist1.y = Fist1.y - height;
+                        clicking = false;
+                    }, 100);
+                }
+            }
             break;
     
         default:
             break;
     }
 }
+
 
 
 function animate() {
@@ -126,7 +137,8 @@ export {
     up,
     down,
     right,
-    left
+    left,
+    hands
 }
 export default {
 }

@@ -1,4 +1,4 @@
-import { Player, Fist1, Fist2, player, fist, width } from "./index.js";
+import { Player, Fist1, Fist2, update, gun1 } from "./index.js";
 
 /////// CLASSES
 class Resize{
@@ -161,19 +161,34 @@ class Map{ //extending the resize to the map
 
 class Collision{
     constructor({ obj1, obj2}) {
-        this.obj1 = obj1;
-        this.obj2 = obj2;
-        this.collision = false;
-        
+        // this.stop = stop;
+        // if(this.stop === false) {
+            this.obj1 = obj1;
+            this.obj2 = obj2;
+            this.collision = false;
+        // }
+        // else if(this.stop === true){
+        //     this.obj1 = null;
+        //     this.obj2 = null;
+        //     this.collision = false;
+        // }
     }
+    
     checkCircle() {
+        if (this.obj1 && this.obj2) {
+            
         const dist = Math.hypot(this.obj1.x - this.obj2.x, this.obj1.y - this.obj2.y)
         if (dist - this.obj2.radius - this.obj1.radius < 1) {
             return true;
         }
-        return false;
+            return false;
+        }
+        else {
+            returnl
+        }
     }
-    checkCircleandRect({arms = true, player}) { //obj1 being the rectangle and obj2 being the circle
+    checkCircleandRect({ arms = true, player }) { //obj1 being the rectangle and obj2 being the circle
+        if (this.obj1 && this.obj2) {
         // let distx = Math.round(Math.abs(this.obj2.x - this.obj1.x) / 2);//add / 2 to the end detect center of objects
         // let disty = Math.round(Math.abs(this.obj2.y - this.obj1.y) / 2);//add / 2 to the end to detect center of objects
         let distx, disty;
@@ -211,8 +226,14 @@ class Collision{
         // let dx = distx - this.obj1.width /2;//add / 2 to detect center of objects
         // let dy = disty - this.obj1.height /2;//add / 2 to detect center of objects
         // // return (dx * dx + dy * dy <= (this.obj2.r * this.obj2.r));
+        }
+        else {
+            return;
+        }
     }
     checkRect() {
+        if (this.obj1 && this.obj2) {
+            
         // if (this.isArry === true) {
             // for (let i = 0; i < this.arry.length; i++) {
             //     this.obj1 = this.arry[i];
@@ -227,7 +248,17 @@ class Collision{
                 // this.otherArray.push(this.obj1, this.obj2);
                 return true;
         }
-        return false;
+            return false;
+        }
+        else {
+            return;
+        }
+    }
+    stop() {
+        console.log("called");
+        this.obj1 = null;
+        this.obj2 = null;
+        this.collision = null;
     }
 }
 
@@ -264,7 +295,22 @@ class Rotate {
         this.c.rotate(187)
         // this.c.rotate(90)
         Fist1.draw();
-        Fist2.draw()
+        Fist2.draw();
+        // this.c.rotate(175.8)
+        this.c.rotate(348.6);
+        // if (update == true) {
+
+        //     gun.draw();
+        // }
+        // guns.forEach(gund => {
+
+            // if (gund.equip == true) {
+                if ( update == true) {
+                gun1.draw();
+            }
+            // }
+        // })
+        // testgun.draw();
         this.c.restore();
     }
 }
@@ -288,14 +334,22 @@ class DrawImage{
 }
 
 class Gun{
-    constructor(c, { src, x, y, width, height }) {
+    constructor(c, { src, x, y, width, height, equip = false }) {
         this.c = c;
         this.src = src;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.draw();
+        this.equip = equip;
+
+        // if (this.there == true) {
+        // }
+        // this.draw();
+        // else {
+        //     console.log("not there")
+        // }
+        // console.log(this.there);
     }
     draw() {
         let gun = new Image();
@@ -338,6 +392,29 @@ class DrawText{
         this.draw(this.c, this.text);
     }
 }
+
+class Projectile {
+    constructor(c, { x = 100, y = 100, radius = 30, color = "blue", velocity = { x: 10, y: 10 } }) {
+        this.c = c;
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.color = color;
+        this.velocity = velocity;
+    }
+    draw() {
+        this.c.beginPath()
+        this.c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+        //drawing the player
+        this.c.fillStyle = this.color;
+        this.c.fill()
+    }
+    update() {
+        this.draw()
+        this.x = this.x + this.velocity.x;
+        this.y = this.y + this.velocity.y;
+    }
+}
 ///////
 
 /////// EXPORTS
@@ -350,6 +427,7 @@ export{
     Collision,
     DrawImage,
     Gun,
-    DrawText
+    DrawText,
+    Projectile
 }
 ///////

@@ -25,12 +25,17 @@ Battle Royale Todo:
   [x] add crates
   [x] add collisions with boxes.
   [x] detect collsion for when the player is over the gun.
-  [] allow player to pick up the gun
-  [] add bullet.
+  [x] allow player to pick up the gun.
+  [x] disable the fist when gun is equipped
+  [x] add bullet.
+  [x] make bullet shoot from players position.
+  [] add a loadout
+  [] add trees
+  [] add buildings
 
   when the boxes touch each other meaning when there is a collision the colors of those boxes should change.
 
 Main website:
   [] add the new games
-  [] make page responsive
+  [x] make page responsive
   [] have a dark and light mode.
