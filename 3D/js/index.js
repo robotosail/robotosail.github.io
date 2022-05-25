@@ -3,6 +3,7 @@ import { PointerLockControls } from "../library/controls/PointerLockControls.js"
 
 const CANNON = window.CANNON;
 let scene, world, camera, controls, renderer, groundBody, floor;
+let fov = -100;
 
 class Initialize{
     constructor() {
@@ -26,7 +27,7 @@ class Initialize{
     threeInit() {
         scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera(
-            200, //the fov
+            fov, //the fov
             1024 / 1084, // the aspect ratio
             0.1, // the near 
             1000 // The far

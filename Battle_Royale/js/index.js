@@ -15,7 +15,7 @@ const c4 = canvas4.getContext("2d");
 // const canvasColor = "rgba(250, 0,  0, 1)"; //set to point 1 to add draging effect
 const canvasColor = "skyblue"; //set to point 1 to add draging effect
 const width = innerWidth;
-const height = innerHeight;
+const height = innerHeight, keyboard = {};
 /////////
 
 ///////// LET VARIABLES
@@ -73,10 +73,28 @@ let map, box, box2, crates = [], crates2 = [], destroyCollision1, destroyCollisi
 // allows player to rotate
 let rotateFist1 = new RBTS.Rotate(c1, { x: Player.x, y: Player.y }),
     rotateGun = new RBTS.Rotate(c1, { x: Player.x, y: Player.y }),
-    rotateFist2 = new RBTS.Rotate(c1, { x: Player.x, y: Player.y }), weaponThere1 = false, weaponThere2 = false, random_x1, random_y1, random_x2, random_y2, x = player.x, y = player.y, weapon = { x: 0, y: 0, width: 60, height: 60, src: "assets/scar.png", there: false },
-    guns = [], guns2 = [], surroundingCircle1, surroundingCircle2, destroyableObjects = [], circleArray = [], circleArray2 = [], infoMessage, message = { color: "white", txt: ("E to pick up").split("").join(String.fromCharCode(8202)) };
+    rotateFist2 = new RBTS.Rotate(c1, { x: Player.x, y: Player.y }),
+    weaponThere1 = false,
+    weaponThere2 = false,
+    random_x1,
+    random_y1,
+    random_x2,
+    random_y2,
+    x = player.x,
+    y = player.y,
+    weapon = { x: 0, y: 0, width: 60, height: 60, src: "assets/scar.png", there: false },
+    guns = [],
+    guns2 = [],
+    surroundingCircle1,
+    surroundingCircle2,
+    destroyableObjects = [],
+    circleArray = [],
+    circleArray2 = [],
+    infoMessage,
+    message = { color: "white", txt: ("E to pick up").split("").join(String.fromCharCode(8202)) },
+    rectDoor;
 let overcollision1, overcollision2, collision, gun, gun1, update = false, ecount = 0;
-let equip = false;
+let equip = false, prevKey;
 /////////
 
 
@@ -120,8 +138,27 @@ function DrawBuildings() {
     //     x: x, y: y, width: 800, height: 800, color: "blue", outline: true,
     // })
 
-    let building = new RBTS.DrawImage(c3, "./assets/building1.png", { x: x, y: y, width: 800, height: 800 });
+    let building = new RBTS.DrawImage(c3, "./assets/building1.png", { x: x, y: y, width: 1000, height: 1000 });
+    rectDoor = new RBTS.Square(c3, {x: building.x + (building.width / 2) - 40, y: building.y, width: 140, height: 40 / 2, color: "red", })
+    let rectDoor2 = new RBTS.Square(c3, { x: building.x + (building.width / 2) - 60, y: building.y + building.height - 10, width: 140, height: 40 / 2, color: "red", });
+    let doorCollision = new RBTS.Collision({obj1: rectDoor, obj2: Player}).checkCircleRect()
+    let doorCollision2 = new RBTS.Collision({obj1: rectDoor2, obj2: Player}).checkCircleRect()
     // console.log("building.x");
+    if (doorCollision == true || doorCollision2 == true) {
+        // speed.value = 0;
+        addEventListener("keyup", (e) => {
+            prevKey = e.key; // check the last key that was pressed
+        })
+        if (keyboard[prevKey] == prevKey) { // check if the last key that was pressed is equal to the key that is being pressed
+            speed.value = 0;
+        }
+        else if(keyboard[prevKey] !== prevKey) {
+            speed.value = speed.main;
+        }
+        }
+        else if (doorCollision == false || doorCollision2 == false) {
+            prevKey = null;
+        }
 }
 
 //draw at random position
@@ -179,28 +216,34 @@ function DrawWeapon() {
             guns.forEach(gund => {
                 // if each of the guns there is set the false
                 if (gund.equip === true) {
+
+                    // making sure the player cannot pick more than 2 weapons up.
+                    if (ecount >= 2) {
+                        return true;
+                    }
+                    else if(ecount < 2){
                     //deleting the stationary gun from the scene
-                    c2.clearRect(gund.x - 25, gund.y - 10, 105, 90);
+                        c2.clearRect(gund.x - 25, gund.y - 10, 105, 90);
 
-                    //drawing a new gun to the player's scene
-                    infoMessage = null;
-                    // overcollision1.stop();
+                        //drawing a new gun to the player's scene
+                        infoMessage = null;
 
-                    // overcollision1.stop = true
-                    gun1 = new RBTS.Gun(c1, { src: weapon.src, x: newGun.x, y: newGun.y, width: newGun.width, height: newGun.height, equip: newGun.equip })
-                    // then drawing it onto that canvas
-                    update = true;
-                    ecount + 1;
-                    // guns2.splice(guns.indexOf(gun), 1)
-                    //for precise cutting
-                    // c2.save()
-                    // c2.arc(weapon.x + (weapon.width / 2), weapon.y + (weapon.height / 2), 35, 0, Math.PI * 2);
-                    // c2.clip();
-                    // c2.clearRect(gun.x - 2, gun.y - 2, 65, 65) //so far so good
-                    // // guns.splice(guns.indexOf(gun), 1)
-                    // c2.restore()
-                    // gun.x = 0;
-                    // gun.y = 0;
+                        // overcollision1.stop = true
+                        gun1 = new RBTS.Gun(c1, { src: weapon.src, x: newGun.x, y: newGun.y, width: newGun.width, height: newGun.height, equip: newGun.equip })
+                        // then drawing it onto that canvas
+                        update = true;
+                        // ecount + 1;
+                        // guns2.splice(guns.indexOf(gun), 1)
+                        //for precise cutting
+                        // c2.save()
+                        // c2.arc(weapon.x + (weapon.width / 2), weapon.y + (weapon.height / 2), 35, 0, Math.PI * 2);
+                        // c2.clip();
+                        // c2.clearRect(gun.x - 2, gun.y - 2, 65, 65) //so far so good
+                        // // guns.splice(guns.indexOf(gun), 1)
+                        // c2.restore()
+                        // gun.x = 0;
+                        // gun.y = 0;
+                    }
                 }
                 // guns.splice(guns.indexOf(gun), 1)
             });
@@ -239,37 +282,40 @@ function DrawWeapon() {
             guns2.forEach(gund => {
                 // if each of the guns there is set the false
                 if (gund.equip === true) {
-                    c2.clearRect(gund.x - 25, gund.y - 10, 105, 90);
-
-                    //drawing a gun prior to the players pos and updating it
-                    gun1 = new RBTS.Gun(c1, { src: weapon.src, x: newGun.x, y: newGun.y, width: newGun.width, height: newGun.height, equip: newGun.equip })
-                    // then drawing it onto that canvas
-                    update = true;
-                    ecount + 1;
-                    // guns.splice(guns.indexOf(gun), 1)
-                    //for precise cutting
-                    // c2.save()
-                    // c2.arc(weapon.x + (weapon.width / 2), weapon.y + (weapon.height / 2), 35, 0, Math.PI * 2);
-                    // c2.clip();
-                    // c2.clearRect(gun.x - 2, gun.y - 2, 65, 65) //so far so good
-                    // // guns.splice(guns.indexOf(gun), 1)
-                    // c2.restore()
-                    // gun.x = 0;
-                    // gun.y = 0;
+                    if (ecount >= 2) {
+                        return true;
+                    }
+                    else if (ecount >= 2) {
+                         
+                        c2.clearRect(gund.x - 25, gund.y - 10, 105, 90);
+                        
+                        //drawing a gun prior to the players pos and updating it
+                        gun1 = new RBTS.Gun(c1, { src: weapon.src, x: newGun.x, y: newGun.y, width: newGun.width, height: newGun.height, equip: newGun.equip })
+                        // then drawing it onto that canvas
+                        update = true;
+                        ecount + 1;
+                        // guns.splice(guns.indexOf(gun), 1)
+                        //for precise cutting
+                        // c2.save()
+                        // c2.arc(weapon.x + (weapon.width / 2), weapon.y + (weapon.height / 2), 35, 0, Math.PI * 2);
+                        // c2.clip();
+                        // c2.clearRect(gun.x - 2, gun.y - 2, 65, 65) //so far so good
+                        // // guns.splice(guns.indexOf(gun), 1)
+                        // c2.restore()
+                        // gun.x = 0;
+                        // gun.y = 0;
+                    }
                 }
                 // guns.splice(guns.indexOf(gun), 1)
             })
         }
     });
 
-    try {
-        console.log(ecount);
-        if (ecount >= 2) {
-            console.log("no more guns allowed");
-        }
-    } catch (error) {
-        console.log(e);
-    }
+    // try {
+    //     console.log(ecount);
+    // } catch (error) {
+    //     console.log(e);
+    // }
 }
 
 // for detecting collision
@@ -480,7 +526,9 @@ function updateProjectile() {
     })
 }
 /////////
-
+setInterval(function () {
+    console.log(prevKey);
+}, 1000)
 //////// FUNCTIONS CALL
 resize();
 DrawBuildings();
@@ -498,7 +546,14 @@ animate4();
         if (e.key == "e") {
             equip = true;
             if (equip === true && overcollision1 == true || overcollision2 == true) {
-                ecount++;
+                if (ecount >= 2) {
+                    equip = false;
+                    gun.equip = false;
+                    ecount = 2;
+                }
+                else {
+                    ecount++;
+                }
             }
         }
         else {
@@ -518,14 +573,14 @@ animate4();
         //the angle
         const angle = Math.atan2(e.clientY - canvas1.height / 2, e.clientX - canvas1.width / 2);
         const velocity = {
-            x: Math.cos(angle) * 20, //the speed of the bullet: (higher the number the faster.)
-            y: Math.sin(angle) * 20 //the speed of the bullet
+            x: Math.cos(angle) * 25, //the speed of the bullet: (higher the number the faster.)
+            y: Math.sin(angle) * 25 //the speed of the bullet
         }
 
         //setting the position of the projectile to be from the player
         if (update == true) {
                 projectiles.push(projectile = new RBTS.Projectile(c1, {
-                    x: weapon.x, y: Player.y + 100,
+                    x: Player.x, y: Player.y,
                     radius: 5.5, color: "red", velocity: {
                         x: velocity.x, y: velocity.y
                     }
@@ -556,4 +611,5 @@ export {
     gun1,
     guns,
     update,
+    keyboard
 }

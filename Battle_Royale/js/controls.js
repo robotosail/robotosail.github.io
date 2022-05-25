@@ -1,4 +1,4 @@
-import { Player, Fist1, Fist2, offset, c2, update} from "./index.js";
+import { Player, Fist1, Fist2, offset, c2, update, keyboard} from "./index.js";
 
 ///////// CONSTANTS
 const speed = {
@@ -20,6 +20,7 @@ let hands = true;
 ///////// FUNCTIONS
 function move(e) {
     // console.log(e.key);
+    keyboard[e.key] = true;
     switch (e.key) {
         case "w":
         case "ArrowUp":
@@ -44,6 +45,7 @@ function move(e) {
 }
 
 function stopMoving(e) {
+    delete keyboard[e.key]
     switch (e.key) {
         case "w":
         case "ArrowUp":

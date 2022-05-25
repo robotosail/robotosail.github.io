@@ -1,5 +1,5 @@
 import { controls, camera } from "./index.js";
-import { playerBody } from "./player.js";
+import { player, playerBody } from "./player.js";
 let moveForward =  false ;
 let moveBackward = false;
 let moveLeft = false;
@@ -123,13 +123,13 @@ class Controler{
             playerBody.position.y += jumpspeed;
         }
         //the crouch
-        if (crouch && playerBody.position.y <= -5) {
+        if (crouch && playerBody.position.y <= -1) {
             playerBody.position.y += jumpspeed;
         }
         //if the playerBody.position is crouching and the position is less than -3 remain there
-        if (crouch && playerBody.position.y >= 0) {
-            playerBody.position.y -= jumpspeed;
-        }
+        // if (crouch && playerBody.position.y >= 0) {
+        //     playerBody.position.y -= jumpspeed;
+        // }
         //stop crouching
         else if (crouch === false && playerBody.position.y >= 0) {
             playerBody.position.y -= jumpspeed;
@@ -137,8 +137,13 @@ class Controler{
     }
     animatePlayer() {
         animationId = requestAnimationFrame(this.animatePlayer.bind(this));
-        this.checkKeyStates();
-        camera.position.y = playerBody.position.y;
+        if (player) {
+            
+            this.checkKeyStates();
+            playerBody.position.x = camera.position.x;
+            playerBody.position.z = camera.position.z;
+            camera.position.y = playerBody.position.y;
+        }
     }
     
 }

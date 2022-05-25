@@ -10,6 +10,7 @@ let createPlayer = function () {
   // removing the friction
   const player_Shape = new CANNON.Box(new CANNON.Vec3(5 / 2, 5 / 2, 5 / 2))
   playerBody = new CANNON.Body({mass: mass, shape: player_Shape});
+  world.addBody(playerBody);
 
   let player_geometry = new THREE.BoxGeometry(
     5,
@@ -21,22 +22,23 @@ let createPlayer = function () {
   });
   player = new THREE.Mesh(player_geometry, player_material);
 
-    playerBody.position.copy(camera.position);
-  world.addBody(playerBody);
-  camera.add(player);
+  playerBody.position.set(0, -5, 0);
+  scene.add(player);
   
   
   updateCameraPosition();
 };
 
-let updateCameraPosition = function () {
+function updateCameraPosition() {
     requestAnimationFrame(updateCameraPosition);
     player.position.copy(playerBody.position);
     player.quaternion.copy(playerBody.quaternion);
-
+    camera.position.copy(playerBody.position)
+  // playerBody.position.copy(camera.position);
+  
   // when the player rotates
   playerBody.quaternion.copy(camera.quaternion);
-  playerBody.position.copy(camera.position)
+  // playerBody.position.copy(camera.position)
     
 };
 createPlayer();

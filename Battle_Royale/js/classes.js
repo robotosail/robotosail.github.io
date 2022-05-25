@@ -254,11 +254,39 @@ class Collision{
             return;
         }
     }
-    stop() {
-        console.log("called");
-        this.obj1 = null;
-        this.obj2 = null;
-        this.collision = null;
+    checkCircleRect() {//obj1 being the rectangle and obj2 being the circle
+            if (this.obj1 && this.obj2) {
+                // let distx = Math.round(Math.abs(this.obj2.x - this.obj1.x) / 2);//add / 2 to the end detect center of objects
+                // let disty = Math.round(Math.abs(this.obj2.y - this.obj1.y) / 2);//add / 2 to the end to detect center of objects
+                let distx, disty;
+                    distx = Math.round((this.obj2.x - this.obj1.x) / 2);//add / 2 to the end detect center of objects
+                    disty = Math.round((this.obj2.y - this.obj1.y) / 2);//add / 2 to the end to detect center of objects
+                
+                ///// for Debugging and understanding the math
+                // console.log(this.obj1.width / 2 + this.obj2.radius);
+                // console.log(Math.round(Math.abs(this.obj2.x / 2 - this.obj1.x / 2)));
+                // console.log(this.obj2.y / 2 - this.obj1.y/ 2);
+                // console.log(disty);
+                // console.log((this.obj1.height / 2 - this.obj2.radius /2));
+                // console.log(Math.abs(this.obj2.x - this.obj1.x) / 2);
+                /////
+                // checks if the x is greater than the width and radius
+                if (distx >= (this.obj1.width / 2 + 10)) { return false };
+                // check if the x is less than 0 then set it to false
+                if (distx <= -15) { return false }; // the max distance before the collision happens
+
+                if (disty >= (this.obj1.height)) { return false };
+                // check if the y is less than 0 then set it to false
+                if (disty <= -15) { return false }; // the max distance before the collision happens
+
+                // checks if the center of both objects are closer to each other
+                if (distx < (this.obj1.width)) { return true; }//add / 2 so the detection happens exactly
+                if (disty < (this.obj1.height)) { return true; }//add / 2 so the detection happens exactly
+
+        // let dx = distx - this.obj1.width /2;//add / 2 to detect center of objects
+        // let dy = disty - this.obj1.height /2;//add / 2 to detect center of objects
+        // // return (dx * dx + dy * dy <= (this.obj2.r * this.obj2.r));
+        }
     }
 }
 

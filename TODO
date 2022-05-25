@@ -35,6 +35,9 @@ Battle Royale Todo:
 
   when the boxes touch each other meaning when there is a collision the colors of those boxes should change.
 
+Bugs:
+  [x] player can pickup more than 2 weapons.
+  
 Main website:
   [] add the new games
   [x] make page responsive
