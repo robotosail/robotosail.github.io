@@ -2,8 +2,26 @@ import * as THREE from "../library/three.module.js";
 import { PointerLockControls } from "../library/controls/PointerLockControls.js";
 
 const CANNON = window.CANNON;
-let scene, world, camera, controls, renderer, groundBody, floor;
+let scene, world, camera, controls, renderer, groundBody, floor, contactPhysics, semiContactSlippery;
+let Materials = {
+    playerMaterial: new CANNON.Material("playerMaterial"), //naming a material
+    groundMaterial: new CANNON.Material("groundMaterial", "1")
+}
 let fov = -100;
+// let options = {
+//     friction: 1.0,
+//     restitution: 0.2
+// }
+let options = {
+    friction: 1.0,
+    // Bounciness (0-1, higher is bouncier). How much energy is conserved
+    // after a collision
+    restitution: 0,
+}
+let optionsSlippery = {
+    friction: 0.7, //how slippery it is
+    restitution: 0 //the bounciness
+}
 
 class Initialize{
     constructor() {
@@ -14,14 +32,24 @@ class Initialize{
     // CANNON JS
     cannonInit() {
         world = new CANNON.World(); // initializing the world
-        world.gravity.set(0, 9.8, 0); // Setting the gravity of the world.
-        world.broadphase = new CANNON.NaiveBroadphase(); // Detect colliding object
+        world.quatNormalizeSkip = 0;
+        world.quatNormalizeFast = false;
+
+        // world.gravity.set(0, -20, 0);
+        world.broadphase = new CANNON.NaiveBroadphase();
+        world.gravity.set(0, 0.8, 0); // Setting the gravity of the world.
+        // world.broadphase = new CANNON.NaiveBroadphase(); // Detect colliding object
         world.solver.iterations = 10; // Collision detection sampling rate
+        contactPhysics = new CANNON.ContactMaterial(Materials.groundMaterial, Materials.groundMaterial, options);
+        semiContactSlippery = new CANNON.ContactMaterial(Materials.playerMaterial, Materials.groundMaterial, optionsSlippery);
+        world.addContactMaterial(contactPhysics);
+        world.addContactMaterial(semiContactSlippery);
         this.#updatePhysics();
     }
     #updatePhysics() {
         requestAnimationFrame(this.#updatePhysics.bind(this));
-        world.step(1 / 60);
+            
+            world.step(1 / 60);
     }
     // THREE JS
     threeInit() {
@@ -80,16 +108,18 @@ class Initialize{
                 const groundShape = new CANNON.Plane();
                 groundBody = new CANNON.Body({
                     mass: 0, // mass == 0 makes the body static
-                    shape: groundShape
+                    shape: groundShape,
+                    // material: groundMaterial
+                    material: Materials.playerMaterial
                 });
+                groundBody.position.y = 0;
                 world.addBody(groundBody);
-                groundBody.position.y = 1;
             // ---
         
             // --- THREE JS
                 floor = new THREE.Mesh(
                 new THREE.PlaneGeometry(700, 700, 50, 50, 50),
-                new THREE.MeshBasicMaterial({ color: 0x808080 }));
+                new THREE.MeshPhongMaterial({ color: "orange" }));
                 // 0x808080
                 //makes the floor spin
                 // groundBody.angularVelocity.set(Math.PI / 2, 0, 0)
@@ -171,6 +201,8 @@ export{
   controls, 
   renderer, 
   floor,
+  Materials,
+  options,
   THREE,
   CANNON,
 }
