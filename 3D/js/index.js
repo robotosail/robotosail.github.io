@@ -119,7 +119,7 @@ class Initialize{
             // --- THREE JS
                 floor = new THREE.Mesh(
                 new THREE.PlaneGeometry(700, 700, 50, 50, 50),
-                new THREE.MeshPhongMaterial({ color: "orange" }));
+                new THREE.MeshPhongMaterial({ color: "white" }));
                 // 0x808080
                 //makes the floor spin
                 // groundBody.angularVelocity.set(Math.PI / 2, 0, 0)

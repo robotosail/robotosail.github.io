@@ -20,7 +20,7 @@ let createPlayer = function () {
 
   // const player_Shape = new CANNON.Box(new CANNON.Vec3(width / 2, height / 2, depth / 2))
   //use a shpere instead of a box as the player shape.
-  const player_Shape = new CANNON.Sphere(1.5);
+  const player_Shape = new CANNON.Sphere(2);
   playerBody = new CANNON.Body({
     mass: mass,
     shape: player_Shape,
