@@ -43,3 +43,4 @@ function animation( time ) {
 }
 ```
 The renderer is like our world, it contains the scene. if done correctly you should see <a href="https://jsfiddle.net/7u84j6kp/" target="_blank">this</a>
+To understand three.js more visit their website [here](https://threejs.org/manual/#en/fundamentals)
