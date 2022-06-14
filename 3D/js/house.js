@@ -33,7 +33,9 @@ let cube,
   inside_wall1,
   inside_wall1Body,
   rampBody,
-  ramp;
+  ramp,
+  rampBody2,
+  ramp2;
 let front_topwall1,
   front_topwall1Body,
   front_topleftwall1,
@@ -144,6 +146,7 @@ function house() {
       // map: houseTexture
     });
     cube4 = new THREE.Mesh(shape4, material4);
+    cube4.castShadow = true;
 
     //roof
     const shape5Body = new CANNON.Box(
@@ -190,14 +193,14 @@ function house() {
     inside_wall = new THREE.Mesh(shape5, material5);
 
     //ramp
-    const shape_ramp = new THREE.BoxGeometry(3, 80, 60);
+    const shape_ramp = new THREE.BoxGeometry(3, 85, 56);
     const material_ramp = new THREE.MeshPhongMaterial({
-      color: 0xC78D5A,
+      color: 0xc78d5a,
       // map: houseTexture
     });
     ramp = new THREE.Mesh(shape_ramp, material_ramp);
 
-    const rampShape = new CANNON.Box(new CANNON.Vec3(3 / 2, 80 / 2, 60 / 2));
+    const rampShape = new CANNON.Box(new CANNON.Vec3(3 / 2, 85 / 2, 56 / 2));
     rampBody = new CANNON.Body({
       shape: rampShape,
       mass: mass,
@@ -228,8 +231,8 @@ function house() {
     inside_wallBody.position.set(-157, -15, 30);
 
     //ramp
-    rampBody.position.set(-160.5, -15, 60);
-    ramp.rotation.z = 90;
+    rampBody.position.set(-160.5, -16, 57);
+    ramp.rotation.z = -20;
     scene.add(cube, cube1, cube3, cube4, roof, inside_wall, roofpatch2, ramp);
   }
   house1();
@@ -350,6 +353,22 @@ function house() {
     const material55 = new THREE.MeshPhongMaterial({ color: insideWallcolor });
     inside_wall1 = new THREE.Mesh(shape55, material55);
 
+    //ramp
+    const shape_ramp = new THREE.BoxGeometry(3, 85, 56);
+    const material_ramp = new THREE.MeshPhongMaterial({
+      color: color2,
+      // map: houseTexture
+    });
+    ramp2 = new THREE.Mesh(shape_ramp, material_ramp);
+
+    const rampShape = new CANNON.Box(new CANNON.Vec3(3 / 2, 85 / 2, 56 / 2));
+    rampBody2 = new CANNON.Body({
+      shape: rampShape,
+      mass: mass,
+      material: Materials.groundMaterial,
+    });
+    world.add(rampBody2);
+
     //position
 
     // roof
@@ -371,7 +390,20 @@ function house() {
     //inside wall
     inside_wall1Body.position.set(155.5, -15, -56);
 
-    scene.add(cube12, cube11, roof1, cube33, inside_wall1, cube44, roofpatch1);
+    //ramp
+    rampBody2.position.set(160.5, -16, -85);
+    ramp2.rotation.z = 20;
+
+    scene.add(
+      cube12,
+      cube11,
+      roof1,
+      cube33,
+      inside_wall1,
+      cube44,
+      roofpatch1,
+      ramp2
+    );
   }
   house2();
 
@@ -742,6 +774,9 @@ function animate() {
   requestAnimationFrame(animate);
 
   //syncing the cubeMesh's position in three js to the cannon body.
+  ramp2.position.copy(rampBody2.position);
+  rampBody2.quaternion.copy(ramp2.quaternion);
+
   ramp.position.copy(rampBody.position);
   rampBody.quaternion.copy(ramp.quaternion);
 

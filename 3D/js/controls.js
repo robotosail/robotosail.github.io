@@ -5,9 +5,10 @@ let moveBackward = false;
 let moveLeft = false;
 let moveRight = false;
 let canJump = false;
-let movespeed = 0.3;
+let movespeed = 0.33;
 let crouch = false;
-let jumpspeed = 0.1;
+// let jumpspeed = 0.29;
+let jumpspeed = 0.3;
 let jumpHeight = 20;
 let w = "w";
 let a = "a";
@@ -68,22 +69,29 @@ if (havePointerLock) {
 class Controler {
   constructor() {
     const self = this;
-    window.addEventListener("keydown", this.move, false);
-    window.addEventListener("keyup", this.move2, false);
+    window.addEventListener("keydown", this.moveKeyboard, false);
+    window.addEventListener("keyup", this.move2Keyboard, false);
 
     controls.addEventListener("unlock", function () {
       cancelAnimationFrame(animationId);
+      moveForward = false;
+      moveBackward = false;
+      moveRight = false;
+      moveLeft = false;
+      // canJump = false;
+      // crouch = false;
     });
 
     controls.addEventListener("lock", function (e) {
       self.animatePlayer();
     });
   }
-  move(e) {
+  moveKeyboard(e) {
     //checks if the input box is being focused
     if (e.target.matches("input")) {
       return;
     } else {
+      // console.log(e.key);
       switch (e.key) {
         case w: // w
         case up: // up
@@ -112,7 +120,7 @@ class Controler {
       }
     }
   }
-  move2(e) {
+  move2Keyboard(e) {
     switch (e.key) {
       case w: // w
       case up: // up
@@ -140,47 +148,49 @@ class Controler {
         break;
     }
   }
+
   checkKeyStates() {
     if (moveForward) {
       controls.moveForward(movespeed);
+      // playerBody.velocity.z += movespeed; // figure out how to use velocity instead of position inorder of smooth movement.
     }
     if (moveBackward) {
       controls.moveForward(-movespeed);
+      // playerBody.velocity.z -= movespeed; // figure out how to use velocity instead of position inorder of smooth movement.
     }
     if (moveRight) {
       controls.moveRight(-movespeed);
+      // playerBody.velocity.x += movespeed; // figure out how to use velocity instead of position inorder of smooth movement.
     }
     if (moveLeft) {
       controls.moveRight(movespeed);
+      // playerBody.velocity.x -= movespeed; // figure out how to use velocity instead of position inorder of smooth movement.
     }
     // allows the player to jump
     // Jumping and player position is less than jumpHeight jump
-    // if (canJump && playerBody.position.y > -jumpHeight) {
-    //     playerBody.position.y -= jumpspeed;
-    // }
-    if (canJump) {
-      playerBody.position.y -= jumpspeed;
-    }
+
     // to make the playerBody.position come back down after jumping
-    else if (canJump === false) {
+    if (canJump === false) {
+      playerBody.velocity.y += jumpspeed;
       playerBody.position.y += jumpspeed;
     }
     //the crouch
-    if (crouch && playerBody.position.y <= -1) {
+    if (crouch && playerBody.position.y <= 0) {
+      playerBody.velocity.y += jumpspeed;
       playerBody.position.y += jumpspeed;
     }
     //if the playerBody.position is crouching and the position is less than -3 remain there
-    // if (crouch && playerBody.position.y >= 0) {
-    //     playerBody.position.y -= jumpspeed;
-    // }
-    //stop crouching
-    else if (crouch === false && playerBody.position.y >= 0) {
+    if (crouch && playerBody.position.y >= 0) {
       playerBody.position.y -= jumpspeed;
     }
+    //stop crouching
+    // else if (crouch === false && playerBody.position.y >= 0) {
+    //   playerBody.position.y -= jumpspeed;
+    // }
   }
   animatePlayer() {
     animationId = requestAnimationFrame(this.animatePlayer.bind(this));
-    if (player) {
+    if (playerBody) {
       this.checkKeyStates();
       playerBody.position.x = camera.position.x;
       playerBody.position.z = camera.position.z;

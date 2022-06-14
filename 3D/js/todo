@@ -1,0 +1,10 @@
+3d: 
+    ☐  make button @done
+    ☐ initialize basics @done
+    ☐ make floor @done
+    ☐ make player @done
+    ☐ use cannon js on player @done
+    ☐ cannon js box follow three js camera @done
+    ☐ make camera jump and come down @done
+    ☐ make camera move smoothly
+    

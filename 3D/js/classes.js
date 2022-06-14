@@ -19,6 +19,7 @@ class drawShape {
     wireframe,
     material,
     velocity = { x, y, z },
+    shadow = false,
   }) {
     this.width = width;
     this.name = name;
@@ -36,6 +37,7 @@ class drawShape {
     this.phong = phong;
     this.shape = shape;
     this.mass = mass;
+    this.shadow = shadow;
     if (this.shape === "box") {
       this.drawBox(
         this.width,
@@ -51,7 +53,6 @@ class drawShape {
     }
     if (this.update === true) {
       this.animate();
-      console.log("update");
     }
   }
   drawBox(width, height, depth, color, x, y, z) {
@@ -68,6 +69,11 @@ class drawShape {
       boxMaterial.wireframe = false;
     }
     this.name = new THREE.Mesh(boxShape, boxMaterial);
+    if (this.shadow == true) {
+      this.name.castShadow = true;
+      this.name.receiveShadow = true;
+    }
+    // this.name.castShadow = true;
     scene.add(this.name);
 
     // material = new CANNON.Material("wallMaterial")
@@ -92,7 +98,7 @@ class drawShape {
   animate() {
     requestAnimationFrame(this.animate.bind(this));
     this.name.position.copy(this.Body.position);
-    this.Body.quaternion.copy(this.name.quaternion);
+    this.name.quaternion.copy(this.Body.quaternion);
   }
   remove() {
     scene.remove(this.name);
